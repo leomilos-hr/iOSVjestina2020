@@ -9,13 +9,14 @@
 import UIKit
 
 class ViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        print("Hello World!")
+    @IBOutlet weak var u: UITextField!
+    @IBOutlet weak var p: UITextField!
+    @IBAction func signIn(_ sender: Any) {
+//        var name: String = ""
+//        name = u.text!
+        print("lijep pozdrav")
+        print("\(u.text!)")
+        print("\(p.text!)")
     }
-
-
+    
 }
-
