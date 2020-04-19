@@ -1,2 +1,2 @@
-# ios_projekt
-isprobavanje povezivanja git repozitorija
+# prva domaća zadaća
+parsiranje jsona radi
