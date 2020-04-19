@@ -20,32 +20,30 @@ struct Questions: Codable {
 }
 
 struct Quiz: Codable {
-        let id: Int
-        let title: String
-        let description: String
-        let category: String
-        let level: Int
-        let image: String
-        let questions:[Questions]
-        
-        enum CodingKeys: String, CodingKey {
-                case id = "id"
-                case title = "title"
-                case description = "description"
-                case category = "category"
-                case level = "level"
-                case image = "image"
-                case questions = "questions"
-        }
+    let id: Int
+    let title: String
+    let description: String
+    let category: String
+    let level: Int
+    let image: String
+    let questions:[Questions]
+    
+    /*enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case title = "title"
+            case description = "description"
+            case category = "category"
+            case level = "level"
+            case image = "image"
+            case questions = "questions"
+    }*/
 }
 
 class ViewController: UIViewController {
     @IBOutlet weak var u: UITextField!
     @IBOutlet weak var p: UITextField!
     @IBAction func signIn(_ sender: Any) {
-//        var name: String = ""
-//        name = u.text!
-        //print("lijep pozdrav")
+        //print("hello")
         //print("\(u.text!)")
         //print("\(p.text!)")
 
@@ -99,15 +97,8 @@ class ViewController: UIViewController {
            }
         }
         task.resume()
-        
-         //compiler outout -  delectus aut autem
-        
-        
-        
+
     }
-    
-    
-    
 }
 
 
