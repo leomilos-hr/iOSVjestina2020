@@ -47,13 +47,6 @@ class ViewController: UIViewController {
         //print("\(u.text!)")
         //print("\(p.text!)")
 
-    
-
-        //let jsonData = JSON.data(using: .utf8)!
-        //let blogPost: BlogPost = try! JSONDecoder().decode(BlogPost.self, from: jsonData)
-
-        //(blogPost.title)
-        
         guard let url = URL(string: "https://iosquiz.herokuapp.com/api/quizzes") else {return}
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
         guard let data = data,
@@ -62,35 +55,9 @@ class ViewController: UIViewController {
                 return
             }
             do{
-                //here dataResponse received from a network request
-                //let jsonResponse = try JSONSerialization.jsonObject(with:
-                 //                     dataResponse, options: [])
-                
-                //print(quiz1.quiznum)
-                
-                //print(jsonResponse)
-                
-                //let decoder = JSONDecoder()
-                //let response = try decoder.decode(Root.self, from: data)
-                //print(quizzes[0].title) //Output - EMT
-                
                 let decoder = JSONDecoder()
                 let list_of_quizzes = try decoder.decode(Quizzes.self, from: data)
                 print(list_of_quizzes.quizzes[0].title)
-                
-
-                //(blogPost.title)
-                //print(jsonResponse)
-                //guard let jsonArray = jsonResponse as? [[String: Any]] else {
-                //      return
-                //}
-                //print(jsonArray)
-                //Now get title value
-                //for dic in jsonArray{
-                //    guard let title = dic["quizzes"] as? String else { return }
-                //    print(title)
-                //}
-                //print(jsonResponse) //Response result
                 
              } catch let parsingError {
                 print("Error", parsingError)
