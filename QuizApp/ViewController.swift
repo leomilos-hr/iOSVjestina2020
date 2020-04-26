@@ -47,46 +47,50 @@ struct Question: Codable {
     }
 }
 
+
+
 class ViewController: UIViewController {
-    @IBOutlet weak var u: UITextField!
-    @IBOutlet weak var p: UITextField!
-    @IBAction func signIn(_ sender: Any) {
-        //print("hello")
-        //print("\(u.text!)")
-        //print("\(p.text!)")
-
+    @IBOutlet weak var fun_fact: UILabel!
+    
+    @IBAction func dohvati(_ sender: UIButton) {
         guard let url = URL(string: "https://iosquiz.herokuapp.com/api/quizzes") else {return}
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-        guard let data = data,
-                error == nil else {
-                print(error?.localizedDescription ?? "Response Error")
-                return
-            }
-            do{
-                let decoder = JSONDecoder()
-                let list_of_quizzes = try decoder.decode(Quizzes.self, from: data)
-                //print(list_of_quizzes.quizzes[0].questions[0].idd)
-                
-                /*for quiz in list_of_quizzes.quizzes {
-                    for question_i in quiz.questions{
-                        if question_i.question.contains("NBA"){
-                            //print(question_i.question)
-                            sum_of_questions_containing_NBA += 1
+            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            guard let data = data,
+                    error == nil else {
+                    print(error?.localizedDescription ?? "Response Error")
+                    return
+                }
+                do{
+                    let decoder = JSONDecoder()
+                    let list_of_quizzes = try decoder.decode(Quizzes.self, from: data)
+                    //print(list_of_quizzes.quizzes[0].questions[0].id)
+                    
+                    /*for quiz in list_of_quizzes.quizzes {
+                        for question_i in quiz.questions{
+                            if question_i.question.contains("NBA"){
+                                //print(question_i.question)
+                                sum_of_questions_containing_NBA += 1
+                            }
                         }
+                    }*/
+                    
+                    let sum_of_questions_containing_NBA: Int = list_of_quizzes.quizzes.map{$0.questions.filter{$0.question.contains("NBA")}}.count
+                    //print("Ukupno pitanja koja u tekstu pitanja sadrže riječ “NBA”: \(sum_of_questions_containing_NBA)")
+                    
+                    DispatchQueue.main.async { // Correct
+                       self.fun_fact.text = "Ukupno pitanja koja u tekstu pitanja sadrže riječ “NBA”: \(sum_of_questions_containing_NBA)"
                     }
-                }*/
-                
-                let sum_of_questions_containing_NBA: Int = list_of_quizzes.quizzes.map{$0.questions.filter{$0.question.contains("NBA")}}.count
-                print("Ukupno pitanja koji u tekstu pitanja sadrže riječ “NBA”: \(sum_of_questions_containing_NBA)")
-                
-             } catch let parsingError {
-                print("Error", parsingError)
-           }
+                    
+                 } catch let parsingError {
+                    print("Error", parsingError)
+               }
+            }
+            task.resume()
+        
         }
-        task.resume()
-
-    }
+        
 }
+
 
 
 
