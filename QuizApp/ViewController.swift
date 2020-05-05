@@ -49,10 +49,42 @@ struct Question: Codable {
 
 
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+   
     @IBOutlet weak var fun_fact: UILabel!
+    @IBOutlet weak var image_v: UIImageView!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var buttonDohvati: UIButton!
+    
+    override func viewDidLoad() {
+        tableView.delegate = self;
+        tableView.dataSource = self;
+        
+        super.viewDidLoad()
+    }
+    
+    var imagesQuiz: [UIImage] = []
+    var titlesQuiz: [String] = []
+    
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return titlesQuiz.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "customCell") as! CustomTableViewCell
+        
+        cell.quizLabel.text = titlesQuiz[indexPath.row]
+        cell.quizImage.image = imagesQuiz[indexPath.row]
+        
+        return cell
+    }
     
     @IBAction func dohvati(_ sender: UIButton) {
+        self.buttonDohvati.isEnabled = false
+        self.titlesQuiz.removeAll()
+        self.imagesQuiz.removeAll()
         guard let url = URL(string: "https://iosquiz.herokuapp.com/api/quizzes") else {return}
             let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             guard let data = data,
@@ -74,25 +106,43 @@ class ViewController: UIViewController {
                         }
                     }*/
                     
+                   
+                    
                     let sum_of_questions_containing_NBA: Int = list_of_quizzes.quizzes.map{$0.questions.filter{$0.question.contains("NBA")}}.count
                     //print("Ukupno pitanja koja u tekstu pitanja sadrže riječ “NBA”: \(sum_of_questions_containing_NBA)")
                     
                     DispatchQueue.main.async { // Correct
-                       self.fun_fact.text = "Ukupno pitanja koja u tekstu pitanja sadrže riječ “NBA”: \(sum_of_questions_containing_NBA)"
-                    }
+                        self.fun_fact.text = "Ukupno pitanja koja u tekstu pitanja sadrže riječ “NBA”: \(sum_of_questions_containing_NBA)"
+                        
+                        for quiz in list_of_quizzes.quizzes{
+                            let url = URL(string: quiz.image)
+                            let data = try? Data(contentsOf: url!)
+
+                            if let imageData = data {
+                                let image = UIImage(data: imageData)
+                                self.imagesQuiz.append(image!)
+                           }
+                            self.titlesQuiz.append(quiz.title)
+                        }
+                        
+                        //print(self.titlesQuiz.count)
+                        //print(self.imagesQuiz.count)
+                        
+                        self.tableView.reloadData()
                     
+                        self.buttonDohvati.isEnabled = true
+                        
+                    }
+        
                  } catch let parsingError {
                     print("Error", parsingError)
                }
             }
             task.resume()
+
         
         }
+    
+    
         
 }
-
-
-
-
-
-
