@@ -32,6 +32,7 @@ struct Quiz: Codable {
     }
 }
 
+
 struct Question: Codable {
     let id: Int
     let question: String
@@ -46,8 +47,6 @@ struct Question: Codable {
 
     }
 }
-
-
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -66,6 +65,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     var imagesQuiz: [UIImage] = []
     var titlesQuiz: [String] = []
+    var categoryQuiz: [String] = []
     
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -77,7 +77,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         cell.quizLabel.text = titlesQuiz[indexPath.row]
         cell.quizImage.image = imagesQuiz[indexPath.row]
-        
+        switch categoryQuiz[indexPath.row] {
+            case "SCIENCE":
+                cell.cellView.backgroundColor = UIColor.orange
+            case "SPORTS":
+                cell.cellView.backgroundColor = UIColor.blue
+            default:
+                cell.cellView.backgroundColor = UIColor.red
+        }
         return cell
     }
     
@@ -123,6 +130,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                                 self.imagesQuiz.append(image!)
                            }
                             self.titlesQuiz.append(quiz.title)
+                            self.categoryQuiz.append(quiz.category)
                         }
                         
                         //print(self.titlesQuiz.count)
