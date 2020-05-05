@@ -71,9 +71,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return titlesQuiz.count
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
+    }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "customCell") as! CustomTableViewCell
+        
+        //cell.cellView.layer.cornerRadius = cell.cellView.frame.height / 2
+        cell.quizImage.layer.cornerRadius = cell.quizImage.frame.height / 2
+        
         
         cell.quizLabel.text = titlesQuiz[indexPath.row]
         cell.quizImage.image = imagesQuiz[indexPath.row]
@@ -85,6 +93,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             default:
                 cell.cellView.backgroundColor = UIColor.red
         }
+        cell.quizLabel.textColor = UIColor.white
         return cell
     }
     
