@@ -61,11 +61,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.dataSource = self;
         
         super.viewDidLoad()
+        
     }
     
     var imagesQuiz: [UIImage] = []
     var titlesQuiz: [String] = []
     var categoryQuiz: [String] = []
+    var questionsQuiz: [[Question]] = []
     
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -97,10 +99,30 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedIndex = indexPath.row
+        let mySubview: CustomView = CustomView(frame: CGRect(x: self.view.frame.size.width  / 2,
+                                                             y: self.view.frame.size.height / 2,
+                                                             width: self.view.frame.size.width  * 4/5,
+                                                             height: self.view.frame.size.height * 3/4))
+        mySubview.center = CGPoint(x: self.view.bounds.midX,
+        y: self.view.bounds.midY);
+        //mySubview.qLabel.lineBreakMode = .byWordWrapping
+        mySubview.qLabel.numberOfLines = 0;
+        mySubview.qLabel.adjustsFontSizeToFitWidth = true
+        self.view.addSubview(mySubview)
+        //mySubview.qLabel.text = titlesQuiz[selectedIndex]
+        let randomQuestion = questionsQuiz[selectedIndex].randomElement()
+        mySubview.qLabel.text = randomQuestion
+        
+    }
+    
     @IBAction func dohvati(_ sender: UIButton) {
         self.buttonDohvati.isEnabled = false
         self.titlesQuiz.removeAll()
         self.imagesQuiz.removeAll()
+        
+        
         guard let url = URL(string: "https://iosquiz.herokuapp.com/api/quizzes") else {return}
             let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             guard let data = data,
@@ -140,6 +162,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                            }
                             self.titlesQuiz.append(quiz.title)
                             self.categoryQuiz.append(quiz.category)
+                            var list_ques : [String] = []
+                            for ques in quiz.questions{
+                                list_ques.append(ques.question)
+                            }
+                            self.questionsQuiz.append(list_ques)
                         }
                         
                         //print(self.titlesQuiz.count)
@@ -159,7 +186,5 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
         
         }
-    
-    
-        
+
 }
