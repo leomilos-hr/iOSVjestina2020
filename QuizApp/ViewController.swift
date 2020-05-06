@@ -112,8 +112,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         mySubview.qLabel.adjustsFontSizeToFitWidth = true
         self.view.addSubview(mySubview)
         //mySubview.qLabel.text = titlesQuiz[selectedIndex]
-        let randomQuestion = questionsQuiz[selectedIndex].randomElement()
-        mySubview.qLabel.text = randomQuestion
+        let randomQuestion: Question = questionsQuiz[selectedIndex].randomElement()!
+        mySubview.qLabel.text = randomQuestion.question
         
     }
     
@@ -162,9 +162,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                            }
                             self.titlesQuiz.append(quiz.title)
                             self.categoryQuiz.append(quiz.category)
-                            var list_ques : [String] = []
+                            var list_ques : [Question] = []
                             for ques in quiz.questions{
-                                list_ques.append(ques.question)
+                                list_ques.append(ques)
                             }
                             self.questionsQuiz.append(list_ques)
                         }
