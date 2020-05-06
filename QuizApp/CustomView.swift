@@ -14,7 +14,11 @@ import UIKit
     var view: UIView!
 
     @IBOutlet weak var qLabel: UILabel!
-    
+    @IBOutlet weak var button_a: UIButton!
+    @IBOutlet weak var button_b: UIButton!
+    @IBOutlet weak var button_c: UIButton!
+    @IBOutlet weak var button_d: UIButton!
+    @IBOutlet weak var button_exit: UIButton!
     
     func xibSetup() {
         view = loadViewFromNib()
