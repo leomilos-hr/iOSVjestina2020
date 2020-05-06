@@ -74,7 +74,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     var mySubview: CustomView!
-    var myErrorSubview: ErrorView!
     
     var imagesQuiz: [UIImage] = []
     var titlesQuiz: [String] = []
