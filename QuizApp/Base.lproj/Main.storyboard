@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="X7k-H0-qdU">
-                                <rect key="frame" x="0.0" y="158" width="414" height="704"/>
+                                <rect key="frame" x="0.0" y="165" width="414" height="697"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="customCell" rowHeight="100" id="086-Eq-3WC" customClass="CustomTableViewCell" customModule="QuizApp" customModuleProvider="target">
@@ -83,7 +83,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fun Fact" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fpw-ff-mWz">
-                                <rect key="frame" x="20" y="127" width="52" height="14"/>
+                                <rect key="frame" x="20" y="127" width="52" height="33"/>
                                 <color key="tintColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
                                 <color key="textColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -94,7 +94,8 @@
                         <constraints>
                             <constraint firstItem="Fpw-ff-mWz" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="83" id="3IN-dC-YTQ"/>
                             <constraint firstItem="X7k-H0-qdU" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="GAx-DR-7Em"/>
-                            <constraint firstItem="X7k-H0-qdU" firstAttribute="top" secondItem="Fpw-ff-mWz" secondAttribute="bottom" constant="17" id="T1e-Hd-AO4"/>
+                            <constraint firstItem="X7k-H0-qdU" firstAttribute="top" secondItem="BNL-Ij-d7t" secondAttribute="bottom" constant="45" id="MMy-EU-c1M"/>
+                            <constraint firstItem="X7k-H0-qdU" firstAttribute="top" secondItem="Fpw-ff-mWz" secondAttribute="bottom" constant="5" id="T1e-Hd-AO4"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="X7k-H0-qdU" secondAttribute="bottom" id="WfI-RK-EqB"/>
                             <constraint firstItem="Fpw-ff-mWz" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="tzM-JT-wjk"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="X7k-H0-qdU" secondAttribute="trailing" id="yyA-Cf-Vmq"/>

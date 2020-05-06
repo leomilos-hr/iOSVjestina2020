@@ -48,6 +48,15 @@ struct Question: Codable {
     }
 }
 
+class Alert {
+    
+    class func showBasic(title: String, message: String, vc: UIViewController) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        vc.present(alert, animated: true)
+    }
+}
+
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
    
@@ -65,6 +74,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     var mySubview: CustomView!
+    var myErrorSubview: ErrorView!
     
     var imagesQuiz: [UIImage] = []
     var titlesQuiz: [String] = []
@@ -182,9 +192,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         guard let url = URL(string: "https://iosquiz.herokuapp.com/api/quizzes") else {return}
             let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            guard let data = data,
-                    error == nil else {
-                    print(error?.localizedDescription ?? "Response Error")
+                guard let data = data, !data.isEmpty else{
+                    DispatchQueue.main.async {
+                        Alert.showBasic(title: "Greška", message: "Greška u dohvaćanju sa servera", vc: self)
+                    }
                     return
                 }
                 do{
@@ -236,6 +247,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     }
         
                  } catch let parsingError {
+                    DispatchQueue.main.async {
+                        Alert.showBasic(title: "Greška", message: "Greška u parsiranju podataka", vc: self)
+                    }
                     print("Error", parsingError)
                }
             }
