@@ -16,8 +16,6 @@
 		52EBA4D92461E45B007BF54A /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EBA4D82461E45B007BF54A /* CustomTableViewCell.swift */; };
 		52EBA4DF2462AA2C007BF54A /* CustomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52EBA4DE2462AA2C007BF54A /* CustomView.xib */; };
 		52EBA4E12462AAD2007BF54A /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EBA4E02462AAD2007BF54A /* CustomView.swift */; };
-		52EBA4E32462EDEE007BF54A /* ErrorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52EBA4E22462EDEE007BF54A /* ErrorView.xib */; };
-		52EBA4E52462EFF5007BF54A /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EBA4E42462EFF5007BF54A /* ErrorView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,8 +30,6 @@
 		52EBA4D82461E45B007BF54A /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		52EBA4DE2462AA2C007BF54A /* CustomView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomView.xib; sourceTree = "<group>"; };
 		52EBA4E02462AAD2007BF54A /* CustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
-		52EBA4E22462EDEE007BF54A /* ErrorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ErrorView.xib; sourceTree = "<group>"; };
-		52EBA4E42462EFF5007BF54A /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,8 +72,6 @@
 				5281BEB4243FDEB8000CCF3F /* Info.plist */,
 				52EBA4DE2462AA2C007BF54A /* CustomView.xib */,
 				52EBA4E02462AAD2007BF54A /* CustomView.swift */,
-				52EBA4E22462EDEE007BF54A /* ErrorView.xib */,
-				52EBA4E42462EFF5007BF54A /* ErrorView.swift */,
 			);
 			path = QuizApp;
 			sourceTree = "<group>";
@@ -142,7 +136,6 @@
 			files = (
 				5281BEB3243FDEB8000CCF3F /* LaunchScreen.storyboard in Resources */,
 				52EBA4DF2462AA2C007BF54A /* CustomView.xib in Resources */,
-				52EBA4E32462EDEE007BF54A /* ErrorView.xib in Resources */,
 				5281BEB0243FDEB8000CCF3F /* Assets.xcassets in Resources */,
 				5281BEAE243FDEB5000CCF3F /* Main.storyboard in Resources */,
 			);
@@ -156,7 +149,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				52EBA4E12462AAD2007BF54A /* CustomView.swift in Sources */,
-				52EBA4E52462EFF5007BF54A /* ErrorView.swift in Sources */,
 				5281BEAB243FDEB4000CCF3F /* ViewController.swift in Sources */,
 				5281BEA7243FDEB4000CCF3F /* AppDelegate.swift in Sources */,
 				52EBA4D92461E45B007BF54A /* CustomTableViewCell.swift in Sources */,
