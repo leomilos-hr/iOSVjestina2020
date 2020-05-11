@@ -22,7 +22,7 @@ struct Quiz: Codable {
     let questions:[Question]
     
     enum CodingKeys: String, CodingKey {
-            case id = "id" // naziv u navodnicima mora biti jednak json definiciji varijable
+            case id = "id"
             case title = "title"
             case description = "description"
             case category = "category"
@@ -49,7 +49,6 @@ struct Question: Codable {
 }
 
 class Alert {
-    
     class func showBasic(title: String, message: String, vc: UIViewController) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -57,27 +56,17 @@ class Alert {
     }
 }
 
-enum signUpError: Error {
-    case incompleteForm
-    case invalidEmail
-    case incorrectPasswordLength
-    case passwordsDoNotMatch
-}
-
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
    
     @IBOutlet weak var fun_fact: UILabel!
-    @IBOutlet weak var image_v: UIImageView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var buttonDohvati: UIButton!
     
+    
     override func viewDidLoad() {
-        tableView.delegate = self;
-        tableView.dataSource = self;
-        
-        super.viewDidLoad()
-        
+        tableView.delegate = self
+        tableView.dataSource = self
     }
     
     var mySubview: CustomView!
@@ -100,12 +89,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "customCell") as! CustomTableViewCell
         
-        //cell.cellView.layer.cornerRadius = cell.cellView.frame.height / 2
         cell.quizImage.layer.cornerRadius = cell.quizImage.frame.height / 2
-        
         
         cell.quizLabel.text = titlesQuiz[indexPath.row]
         cell.quizImage.image = imagesQuiz[indexPath.row]
+        
+        //kategorija kviza
         switch categoryQuiz[indexPath.row] {
             case "SCIENCE":
                 cell.cellView.backgroundColor = UIColor.orange
@@ -130,11 +119,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                                                              height: self.view.frame.size.height * 3/4))
         mySubview.center = CGPoint(x: self.view.bounds.midX,
         y: self.view.bounds.midY);
-        //mySubview.qLabel.lineBreakMode = .byWordWrapping
         mySubview.qLabel.numberOfLines = 0;
         mySubview.qLabel.adjustsFontSizeToFitWidth = true
         self.view.addSubview(mySubview)
-        //mySubview.qLabel.text = titlesQuiz[selectedIndex]
+        
         randomQuestion = questionsQuiz[selectedIndex].randomElement()!
         mySubview.qLabel.text = randomQuestion!.question
         mySubview.button_a.setTitle(randomQuestion!.answers[0], for: .normal)
@@ -142,11 +130,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         mySubview.button_c.setTitle(randomQuestion!.answers[2], for: .normal)
         mySubview.button_d.setTitle(randomQuestion!.answers[3], for: .normal)
         mySubview.button_exit.setTitle("Izlaz", for: .normal)
+        
         mySubview.button_a.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         mySubview.button_b.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         mySubview.button_c.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         mySubview.button_d.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         mySubview.button_exit.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+        
         self.tableView.deselectRow(at: indexPath, animated: true)
         self.tableView.isUserInteractionEnabled = false
     }
@@ -191,13 +181,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.tableView.isUserInteractionEnabled = true
        }
     
+    
     @IBAction func dohvati(_ sender: UIButton) {
         self.buttonDohvati.isEnabled = false
         self.titlesQuiz.removeAll()
         self.imagesQuiz.removeAll()
         
         
-        
+        //za isprobavanje gresaka
+        //guard let url = URL(string: "string") else {return}
+        //guard let url = URL(string: "https://jsonplaceholder.typicode.com/todos") else {return}
         guard let url = URL(string: "https://iosquiz.herokuapp.com/api/quizzes") else {return}
 
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
@@ -219,6 +212,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 DispatchQueue.main.async { // Correct
                     self.fun_fact.text = "Ukupno pitanja koja u tekstu pitanja sadrže riječ “NBA”: \(sum_of_questions_containing_NBA)"
                     
+                    //uzimanje potrebnih podataka za ispis kviza na ekran
                     for quiz in list_of_quizzes.quizzes{
                         let url = URL(string: quiz.image)
                         let data = try? Data(contentsOf: url!)
@@ -236,11 +230,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                         self.questionsQuiz.append(list_ques)
                     }
                     
-                    //print(self.titlesQuiz.count)
-                    //print(self.imagesQuiz.count)
                     
                     self.tableView.reloadData()
-                
                     self.buttonDohvati.isEnabled = true
                     
                 }
@@ -253,5 +244,4 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     task.resume()
     }
-
 }

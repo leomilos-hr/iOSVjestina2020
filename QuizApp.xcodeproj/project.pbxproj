@@ -64,12 +64,12 @@
 			children = (
 				5281BEA6243FDEB4000CCF3F /* AppDelegate.swift */,
 				5281BEA8243FDEB4000CCF3F /* SceneDelegate.swift */,
-				5281BEAA243FDEB4000CCF3F /* ViewController.swift */,
-				5281BEAC243FDEB5000CCF3F /* Main.storyboard */,
-				52EBA4D82461E45B007BF54A /* CustomTableViewCell.swift */,
 				5281BEAF243FDEB8000CCF3F /* Assets.xcassets */,
 				5281BEB1243FDEB8000CCF3F /* LaunchScreen.storyboard */,
 				5281BEB4243FDEB8000CCF3F /* Info.plist */,
+				5281BEAC243FDEB5000CCF3F /* Main.storyboard */,
+				5281BEAA243FDEB4000CCF3F /* ViewController.swift */,
+				52EBA4D82461E45B007BF54A /* CustomTableViewCell.swift */,
 				52EBA4DE2462AA2C007BF54A /* CustomView.xib */,
 				52EBA4E02462AAD2007BF54A /* CustomView.swift */,
 			);
