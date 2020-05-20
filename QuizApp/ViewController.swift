@@ -7,55 +7,7 @@
 //
 
 import UIKit
-
-struct Quizzes: Codable {
-    let quizzes: [Quiz]
-}
-
-struct Quiz: Codable {
-    let id: Int
-    let title: String
-    let description: String
-    let category: String
-    let level: Int
-    let image: String
-    let questions:[Question]
-    
-    enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case title = "title"
-            case description = "description"
-            case category = "category"
-            case level = "level"
-            case image = "image"
-            case questions = "questions"
-    }
-}
-
-
-struct Question: Codable {
-    let id: Int
-    let question: String
-    let answers: [String]
-    let correct_answer: Int
-    
-    enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case question = "question"
-            case answers = "answers"
-            case correct_answer = "correct_answer"
-
-    }
-}
-
-class Alert {
-    class func showBasic(title: String, message: String, vc: UIViewController) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        vc.present(alert, animated: true)
-    }
-}
-
+import Alamofire
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
    
@@ -63,23 +15,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var buttonDohvati: UIButton!
     
-    
+    var list_of_quizzes = Quizzes(quizzes:[])
+
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
         tableView.delegate = self
         tableView.dataSource = self
     }
     
     var mySubview: CustomView!
 
-    
-    var imagesQuiz: [UIImage] = []
-    var titlesQuiz: [String] = []
-    var categoryQuiz: [String] = []
-    var questionsQuiz: [[Question]] = []
-    
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return titlesQuiz.count
+        return list_of_quizzes.quizzes.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -91,11 +39,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         cell.quizImage.layer.cornerRadius = cell.quizImage.frame.height / 2
         
-        cell.quizLabel.text = titlesQuiz[indexPath.row]
-        cell.quizImage.image = imagesQuiz[indexPath.row]
+        cell.quizLabel.text = list_of_quizzes.quizzes[indexPath.row].title
+        
+        let imageUrl = URL(string: list_of_quizzes.quizzes[indexPath.row].image)
+        let dataImage = try? Data(contentsOf: imageUrl!)
+        if let imageCheck = dataImage {
+            cell.quizImage.image = UIImage(data: imageCheck)
+        }
         
         //kategorija kviza
-        switch categoryQuiz[indexPath.row] {
+        switch list_of_quizzes.quizzes[indexPath.row].category{
             case "SCIENCE":
                 cell.cellView.backgroundColor = UIColor.orange
             case "SPORTS":
@@ -123,7 +76,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         mySubview.qLabel.adjustsFontSizeToFitWidth = true
         self.view.addSubview(mySubview)
         
-        randomQuestion = questionsQuiz[selectedIndex].randomElement()!
+        randomQuestion = list_of_quizzes.quizzes[selectedIndex].questions.randomElement()!
         mySubview.qLabel.text = randomQuestion!.question
         mySubview.button_a.setTitle(randomQuestion!.answers[0], for: .normal)
         mySubview.button_b.setTitle(randomQuestion!.answers[1], for: .normal)
@@ -184,64 +137,25 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBAction func dohvati(_ sender: UIButton) {
         self.buttonDohvati.isEnabled = false
-        self.titlesQuiz.removeAll()
-        self.imagesQuiz.removeAll()
         
-        
-        //za isprobavanje gresaka
-        //guard let url = URL(string: "string") else {return}
-        //guard let url = URL(string: "https://jsonplaceholder.typicode.com/todos") else {return}
-        guard let url = URL(string: "https://iosquiz.herokuapp.com/api/quizzes") else {return}
-
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            guard let data = data, error == nil else {
-                DispatchQueue.main.async {
-                        Alert.showBasic(title: "Greška", message: "Greška u dohvaćanju podataka", vc: self)
-                    }
-                print("error")
-                return
+        //initilazition of service
+        let service = Service(baseUrl: "https://iosquiz.herokuapp.com/api/")
+            service.getAllQuizzes(endPoint: "quizzes")
+            service.completionHandler { [weak self] (quizzes, status, message) in
+            if status {
+                guard let self = self else {return}
+                guard let _quizzes = quizzes else {return}
+                self.list_of_quizzes = _quizzes
+                let sum_of_questions_containing_NBA: Int = self.list_of_quizzes.quizzes.map{$0.questions.filter{$0.question.contains("NBA")}}.count
+                self.fun_fact.text = "Ukupno pitanja koja u tekstu pitanja sadrže riječ “NBA”: \(sum_of_questions_containing_NBA)"
+                self.tableView.reloadData()
             }
-            
-            do{
-                let decoder = JSONDecoder()
-                let list_of_quizzes = try decoder.decode(Quizzes.self, from: data)
-
-                let sum_of_questions_containing_NBA: Int = list_of_quizzes.quizzes.map{$0.questions.filter{$0.question.contains("NBA")}}.count
-                //print("Ukupno pitanja koja u tekstu pitanja sadrže riječ “NBA”: \(sum_of_questions_containing_NBA)")
-                
-                DispatchQueue.main.async { // Correct
-                    self.fun_fact.text = "Ukupno pitanja koja u tekstu pitanja sadrže riječ “NBA”: \(sum_of_questions_containing_NBA)"
-                    
-                    //uzimanje potrebnih podataka za ispis kviza na ekran
-                    for quiz in list_of_quizzes.quizzes{
-                        let url = URL(string: quiz.image)
-                        let data = try? Data(contentsOf: url!)
-
-                        if let imageData = data {
-                            let image = UIImage(data: imageData)
-                            self.imagesQuiz.append(image!)
-                       }
-                        self.titlesQuiz.append(quiz.title)
-                        self.categoryQuiz.append(quiz.category)
-                        var list_ques : [Question] = []
-                        for ques in quiz.questions{
-                            list_ques.append(ques)
-                        }
-                        self.questionsQuiz.append(list_ques)
-                    }
-                    
-                    
-                    self.tableView.reloadData()
-                    self.buttonDohvati.isEnabled = true
-                    
+            else {
+                print(message)
+                Alert.showBasic(title: "Greška", message: "Greška u dohvaćanju podataka", vc: self!)
                 }
-            } catch let parsingError {
-                DispatchQueue.main.async {
-                    Alert.showBasic(title: "Greška", message: "Greška u parsiranju podataka", vc: self)
-                }
-                print("Error", parsingError)
-           }
         }
-    task.resume()
+        
+        self.buttonDohvati.isEnabled = true
     }
 }
