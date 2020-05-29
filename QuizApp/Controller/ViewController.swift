@@ -114,6 +114,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     @objc func buttonClicked(_ sender: UIButton!){
+        //let loginViewController = LoginViewController()
+        //navigationController?.pushViewController(loginViewController, animated: true)
         self.button_get.isEnabled = false
         //initilazition of service
         let service = Service(baseUrl: "https://iosquiz.herokuapp.com/api/")
