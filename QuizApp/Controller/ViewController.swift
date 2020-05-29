@@ -32,7 +32,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
           }
       
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return self.view.frame.height / 10
+        return self.view.frame.height / 8
     }
       
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -41,7 +41,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
       //cell.quizImage.layer.cornerRadius = cell.quizImage.frame.height / 2
 
     cell.textLabel?.text = list_of_quizzes.quizzes[indexPath.row].title
-  
+    cell.textLabel?.numberOfLines = 1
+    cell.detailTextLabel?.text = list_of_quizzes.quizzes[indexPath.row].description
+    cell.detailTextLabel?.numberOfLines = 0
+    cell.detailTextLabel?.sizeToFit()
+    cell.detailTextLabel?.textAlignment = .left
+    
     
       let imageUrl = URL(string: list_of_quizzes.quizzes[indexPath.row].image)
       let dataImage = try? Data(contentsOf: imageUrl!)

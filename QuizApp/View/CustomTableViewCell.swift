@@ -11,9 +11,12 @@ import UIKit
 import PureLayout
 
 class CustomTableViewCell: UITableViewCell {
+    
+    var shouldSetupConstraints = false
 
     override func awakeFromNib() {
         super.awakeFromNib()
+        updateConstraints()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -23,7 +26,18 @@ class CustomTableViewCell: UITableViewCell {
     // Here you can customize the appearance of your cell
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.imageView?.frame = CGRect(x: 0,y: 0,width: self.frame.width / 5, height: self.frame.height)
-        self.textLabel?.frame = CGRect(x: self.frame.width / 5 + 10,y: 0,width: self.frame.width, height: self.frame.height)
+    
+        self.imageView?.autoSetDimensions(to: CGSize(width: self.frame.width / 5, height: self.frame.height * 4/5))
+        self.imageView?.autoPinEdge(toSuperviewEdge: .left, withInset: 15)
+        self.imageView?.autoPinEdge(.top, to: .top, of: self, withOffset: 10)
+               
+        self.textLabel?.autoSetDimensions(to: CGSize(width: self.frame.width, height: self.frame.height * 2/5))
+        self.textLabel?.autoPinEdge(.left, to: .right, of: self.imageView!, withOffset: 15)
+        
+        self.detailTextLabel?.autoSetDimensions(to: CGSize(width: self.frame.width, height: self.frame.height * 3/5))
+        self.detailTextLabel?.autoPinEdge(.left, to: .right, of: self.imageView!, withOffset: 15)
+        self.detailTextLabel?.autoPinEdge(.top, to: .bottom, of: self.textLabel!, withOffset: 0)
+        self.detailTextLabel?.autoPinEdge(.right, to: .right, of: self, withOffset: -10)
     }
+    
 }
