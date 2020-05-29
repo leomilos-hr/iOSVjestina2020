@@ -8,11 +8,9 @@
 
 import UIKit
 import PureLayout
-import Alamofire
 
 class LoginView: UIView {
     var shouldSetupConstraints = false
-    let defaults = UserDefaults.standard
     
     var userField: UITextField = UITextField()
     var passwordField: UITextField = UITextField()
@@ -35,32 +33,12 @@ class LoginView: UIView {
         self.addSubview(loginButton)
         self.addSubview(userField)
         self.addSubview(passwordField)
-        loginButton.addTarget(self, action: #selector(self.buttonClicked), for: .touchUpInside)
-    }
-    
-    @objc func buttonClicked(_ sender: UIButton!){
-        if ((userField.text?.count)! > 0) {
-            defaults.set(userField.text!, forKey: "user")
-        }
-        if ((passwordField.text?.count)! > 0) {
-            defaults.set(passwordField.text!, forKey: "password")
-        }
-        
-        let parameters: [String: Any] = [
-            "username" : userField.text!,
-            "password" : passwordField.text!
-            ]
-        
-        AF.request("https://iosquiz.herokuapp.com/api/session", method: .post, parameters: parameters, encoding: JSONEncoding.default)
-        .responseJSON { response in
-            print(response)
-        }
     }
     
    override func updateConstraints() {
     if(!shouldSetupConstraints) {
         userField.autoSetDimensions(to: CGSize(width:  self.frame.width / 2, height: self.frame.height / 20))
-        userField.autoPinEdge(toSuperviewEdge: .top, withInset: self.frame.width / 2)
+        userField.autoPinEdge(toSuperviewEdge: .top, withInset: self.frame.width / 2 - 100)
         userField.autoAlignAxis(.vertical, toSameAxisOf: self)
         
         passwordField.autoSetDimensions(to: CGSize(width: self.frame.width / 2, height: self.frame.size.height / 20))

@@ -11,18 +11,36 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    let defaults = UserDefaults.standard
+    var viewController: UIViewController!
+    var navigationController: UINavigationController!
 
 
    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-      guard let windowScene = (scene as? UIWindowScene) else { return }
-      window = UIWindow(frame: UIScreen.main.bounds)
-      let viewController = LoginViewController()
-      window?.rootViewController = viewController
-      let navigationController = UINavigationController(rootViewController: viewController)
-      navigationController.navigationBar.isTranslucent = false
-      window?.rootViewController = navigationController
-      window?.makeKeyAndVisible()
-      window?.windowScene = windowScene
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        window = UIWindow(frame: UIScreen.main.bounds)
+    
+        if (defaults.object(forKey: "token") != nil && defaults.object(forKey: "user_id") != nil){
+            print("bez login ekrana")
+            //defaults.removeObject(forKey: "user_id")
+            //defaults.removeObject(forKey: "token")
+            viewController = ViewController()
+            window?.rootViewController = viewController
+            navigationController = UINavigationController(rootViewController: viewController)
+            navigationController.navigationBar.isTranslucent = false
+            window?.rootViewController = navigationController
+            window?.makeKeyAndVisible()
+            window?.windowScene = windowScene
+            }
+        else{
+            viewController = LoginViewController()
+            window?.rootViewController = viewController
+            navigationController = UINavigationController(rootViewController: viewController)
+            navigationController.navigationBar.isTranslucent = false
+            window?.rootViewController = navigationController
+            window?.makeKeyAndVisible()
+            window?.windowScene = windowScene
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
