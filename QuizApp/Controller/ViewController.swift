@@ -13,7 +13,7 @@ import PureLayout
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     var didSetupConstraints = false
-    var fun_fact = UILabel.newAutoLayout()
+    var fun_fact = UILabel()
     let button_get = makeButton(title: "Dohvati", background: .green)
     var tableView = UITableView()
     var mySubview: QuestionView!
@@ -35,34 +35,45 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         return self.view.frame.height / 8
     }
       
-  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell: CustomTableViewCell = CustomTableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: "Cell")
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell: CustomTableViewCell = CustomTableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: "Cell")
 
-      //cell.quizImage.layer.cornerRadius = cell.quizImage.frame.height / 2
-
-    cell.textLabel?.text = list_of_quizzes.quizzes[indexPath.row].title
-    cell.textLabel?.numberOfLines = 1
-    cell.detailTextLabel?.text = list_of_quizzes.quizzes[indexPath.row].description
-    cell.detailTextLabel?.numberOfLines = 0
-    cell.detailTextLabel?.sizeToFit()
-    cell.detailTextLabel?.textAlignment = .left
-    
-    
-      let imageUrl = URL(string: list_of_quizzes.quizzes[indexPath.row].image)
-      let dataImage = try? Data(contentsOf: imageUrl!)
-      if let imageCheck = dataImage {
-        cell.imageView?.image = UIImage(data: imageCheck)
-    }
-      //kategorija kviza
-      switch list_of_quizzes.quizzes[indexPath.row].category{
-          case "SCIENCE":
-              cell.backgroundColor = UIColor.orange
-          case "SPORTS":
-              cell.backgroundColor = UIColor.blue
-          default:
-              cell.backgroundColor = UIColor.red
-      }
-      return cell
+        cell.contentView.addSubview(cell.textLevel)
+        cell.textLabel?.text = list_of_quizzes.quizzes[indexPath.row].title
+        cell.textLabel?.numberOfLines = 1
+        cell.textLabel?.sizeToFit()
+        cell.textLabel?.adjustsFontSizeToFitWidth = true
+        cell.detailTextLabel?.text = list_of_quizzes.quizzes[indexPath.row].description
+        cell.detailTextLabel?.numberOfLines = 0
+        cell.detailTextLabel?.sizeToFit()
+        cell.detailTextLabel?.textAlignment = .left
+        
+        cell.textLevel.textColor = .green
+        cell.textLevel.font = UIFont.boldSystemFont(ofSize: 30)
+        cell.textLevel.textAlignment = .right
+        
+        var numberOfStars: String = ""
+        for _ in (1...list_of_quizzes.quizzes[indexPath.row].level){
+            numberOfStars += "*"
+        }
+        cell.textLevel.text = numberOfStars
+        
+        let imageUrl = URL(string: list_of_quizzes.quizzes[indexPath.row].image)
+        let dataImage = try? Data(contentsOf: imageUrl!)
+        if let imageCheck = dataImage {
+            cell.imageView?.image = UIImage(data: imageCheck)
+        }
+        
+        //kategorija kviza
+        switch list_of_quizzes.quizzes[indexPath.row].category{
+            case "SCIENCE":
+                cell.backgroundColor = UIColor.orange
+            case "SPORTS":
+                cell.backgroundColor = UIColor.blue
+            default:
+                cell.backgroundColor = UIColor.red
+        }
+        return cell
     }
     
     var randomQuestion: Question?

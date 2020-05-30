@@ -12,8 +12,9 @@ import PureLayout
 
 class CustomTableViewCell: UITableViewCell {
     
-    var shouldSetupConstraints = false
-
+    //var shouldSetupConstraints = false
+    var textLevel = UILabel()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         updateConstraints()
@@ -33,11 +34,16 @@ class CustomTableViewCell: UITableViewCell {
                
         self.textLabel?.autoSetDimensions(to: CGSize(width: self.frame.width, height: self.frame.height * 2/5))
         self.textLabel?.autoPinEdge(.left, to: .right, of: self.imageView!, withOffset: 15)
+        self.textLabel?.autoPinEdge(.right, to: .right, of: self, withOffset: -100)
         
         self.detailTextLabel?.autoSetDimensions(to: CGSize(width: self.frame.width, height: self.frame.height * 3/5))
         self.detailTextLabel?.autoPinEdge(.left, to: .right, of: self.imageView!, withOffset: 15)
         self.detailTextLabel?.autoPinEdge(.top, to: .bottom, of: self.textLabel!, withOffset: 0)
-        self.detailTextLabel?.autoPinEdge(.right, to: .right, of: self, withOffset: -10)
+        self.detailTextLabel?.autoPinEdge(.right, to: .right, of: self, withOffset: -100)
+        
+        self.textLevel.autoSetDimensions(to: CGSize(width: self.frame.width, height: self.frame.height * 2/5))
+        self.textLevel.autoPinEdge(.top, to: .top, of: self, withOffset: 0)
+        self.textLevel.autoPinEdge(.left, to: .right, of: self.textLabel!, withOffset: 50)
+        self.textLevel.autoPinEdge(.right, to: .right, of: self, withOffset: -5)
     }
-    
 }
