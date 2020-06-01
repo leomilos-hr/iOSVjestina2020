@@ -31,25 +31,27 @@ class QuestionView: UIView {
 
     func addCustomView() {
         qlabel.backgroundColor=UIColor.white
-        qlabel.frame = CGRect(x: 0,y: 0,width: self.frame.width, height: self.frame.height / 6)
+        qlabel.numberOfLines = 0
+        qlabel.frame = CGRect(x: 0,y: 0,width: self.frame.width, height: self.frame.height / 8)
         qlabel.textAlignment = NSTextAlignment.center
         self.addSubview(qlabel)
         
-        button_a.frame = CGRect(x: 0,y: self.frame.height / 6,width: self.frame.width, height: self.frame.height / 6)
+        button_a.frame = CGRect(x: 0,y: self.frame.height / 8,width: self.frame.width, height: self.frame.height / 8)
         self.addSubview(button_a)
         
-        button_b.frame = CGRect(x: 0,y: self.frame.height * 2/6,width: self.frame.width, height: self.frame.height / 6)
+        button_b.frame = CGRect(x: 0,y: self.frame.height * 2/8,width: self.frame.width, height: self.frame.height / 8)
         self.addSubview(button_b)
         
-        button_c.frame = CGRect(x: 0,y: self.frame.height * 3/6,width: self.frame.width, height: self.frame.height / 6)
+        button_c.frame = CGRect(x: 0,y: self.frame.height * 3/8,width: self.frame.width, height: self.frame.height / 8)
         self.addSubview(button_c)
         
-        button_d.frame = CGRect(x: 0,y: self.frame.height * 4/6,width: self.frame.width, height: self.frame.height / 6)
+        button_d.frame = CGRect(x: 0,y: self.frame.height * 4/8,width: self.frame.width, height: self.frame.height / 8)
         self.addSubview(button_d)
         
-        button_exit.frame = CGRect(x: 0,y: self.frame.height * 5/6,width: self.frame.width, height: self.frame.height / 6)
+        button_exit.frame = CGRect(x: 0,y: self.frame.height * 5/8,width: self.frame.width, height: self.frame.height / 8)
         self.addSubview(button_exit)
         
+        self.backgroundColor = .white
 
     }
     

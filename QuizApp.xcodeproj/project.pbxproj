@@ -16,6 +16,7 @@
 		5281BEA9243FDEB4000CCF3F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5281BEA8243FDEB4000CCF3F /* SceneDelegate.swift */; };
 		5281BEAB243FDEB4000CCF3F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5281BEAA243FDEB4000CCF3F /* ViewController.swift */; };
 		5281BEB0243FDEB8000CCF3F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5281BEAF243FDEB8000CCF3F /* Assets.xcassets */; };
+		52BC6FA924851DA1002047B3 /* QuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BC6FA824851DA1002047B3 /* QuestionViewController.swift */; };
 		52D4026D247567B900BED67F /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D4026C247567B900BED67F /* Service.swift */; };
 		52D4026F247568A500BED67F /* Quiz.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D4026E247568A500BED67F /* Quiz.swift */; };
 		52D40273247568D200BED67F /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D40272247568D200BED67F /* Question.swift */; };
@@ -36,6 +37,7 @@
 		5281BEAA243FDEB4000CCF3F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		5281BEAF243FDEB8000CCF3F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5281BEB4243FDEB8000CCF3F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		52BC6FA824851DA1002047B3 /* QuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewController.swift; sourceTree = "<group>"; };
 		52D4026C247567B900BED67F /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		52D4026E247568A500BED67F /* Quiz.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quiz.swift; sourceTree = "<group>"; };
 		52D40272247568D200BED67F /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
@@ -58,7 +60,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		52415D0A24815D4500F05C62 /* Model */ = {
+		52415D0A24815D4500F05C62 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				52D4026E247568A500BED67F /* Quiz.swift */,
@@ -67,26 +69,27 @@
 				52DC56752475933600B037FA /* Alert.swift */,
 				52415D042481164A00F05C62 /* MakeButton.swift */,
 			);
-			path = Model;
+			path = Models;
 			sourceTree = "<group>";
 		};
-		52415D0B24815D5100F05C62 /* View */ = {
+		52415D0B24815D5100F05C62 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				52415D0824813F1B00F05C62 /* QuestionView.swift */,
 				52415D0624812E2B00F05C62 /* CustomTableViewCell.swift */,
 				520051DC24818A900062F55B /* LoginView.swift */,
 			);
-			path = View;
+			path = Views;
 			sourceTree = "<group>";
 		};
-		52415D0C24815D5900F05C62 /* Controller */ = {
+		52415D0C24815D5900F05C62 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
 				5281BEAA243FDEB4000CCF3F /* ViewController.swift */,
 				520051DE24818BA10062F55B /* LoginViewController.swift */,
+				52BC6FA824851DA1002047B3 /* QuestionViewController.swift */,
 			);
-			path = Controller;
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		52415D0E24815D8200F05C62 /* Services */ = {
@@ -119,9 +122,9 @@
 			isa = PBXGroup;
 			children = (
 				52415D0E24815D8200F05C62 /* Services */,
-				52415D0A24815D4500F05C62 /* Model */,
-				52415D0B24815D5100F05C62 /* View */,
-				52415D0C24815D5900F05C62 /* Controller */,
+				52415D0A24815D4500F05C62 /* Models */,
+				52415D0B24815D5100F05C62 /* Views */,
+				52415D0C24815D5900F05C62 /* ViewControllers */,
 				5281BEA6243FDEB4000CCF3F /* AppDelegate.swift */,
 				5281BEA8243FDEB4000CCF3F /* SceneDelegate.swift */,
 				5281BEAF243FDEB8000CCF3F /* Assets.xcassets */,
@@ -262,6 +265,7 @@
 			files = (
 				5281BEAB243FDEB4000CCF3F /* ViewController.swift in Sources */,
 				52415D0724812E2B00F05C62 /* CustomTableViewCell.swift in Sources */,
+				52BC6FA924851DA1002047B3 /* QuestionViewController.swift in Sources */,
 				52D4026F247568A500BED67F /* Quiz.swift in Sources */,
 				52415D0924813F1B00F05C62 /* QuestionView.swift in Sources */,
 				52D40273247568D200BED67F /* Question.swift in Sources */,
