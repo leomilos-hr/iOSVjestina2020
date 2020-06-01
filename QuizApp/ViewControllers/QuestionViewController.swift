@@ -10,9 +10,10 @@ import UIKit
 
 class QuestionViewController: UIViewController {
 
-    var question: Question!
+    var quiz: Quiz!
+    var currentQuestion: Int!
     var questionView: QuestionView!
-    let defaults = UserDefaults.standard
+   
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,10 +26,10 @@ class QuestionViewController: UIViewController {
         let mainView = QuestionView(frame: self.view.frame)
         self.questionView = mainView
         self.view.addSubview(questionView)
-        questionView.qlabel.text = question.question
+        questionView.qlabel.text = quiz.questions[currentQuestion].question
                
         for (index, button) in [questionView.button_a, questionView.button_b, questionView.button_c, questionView.button_d].enumerated(){
-            button.setTitle(question.answers[index], for: .normal)
+            button.setTitle(quiz.questions[currentQuestion].answers[index], for: .normal)
         }
         questionView.button_exit.setTitle("Izlaz", for: .normal)
        
@@ -37,18 +38,25 @@ class QuestionViewController: UIViewController {
             button.addTarget(self, action: #selector(self.buttonAction), for: .touchUpInside)
         }
         //self.questionView.loginButton.addTarget(self, action: #selector(self.buttonClicked), for: .touchUpInside)
-        
     }
-
-       @objc func buttonAction(_sender: UIButton!){
+    
+    
+    @objc func buttonAction(_sender: UIButton!){
          if _sender == questionView.button_exit{
-             self.navigationController?.popViewController(animated: true)
+            let vc = ViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
          }
          
-         for (index, answers) in question.answers.enumerated(){
+         for (index, answers) in quiz.questions[currentQuestion].answers.enumerated(){
              if (_sender.currentTitle == answers){
-                 if (index == question.correct_answer){
-                      _sender.backgroundColor = UIColor.green
+                if (index == quiz.questions[currentQuestion].correct_answer ){
+                    _sender.backgroundColor = UIColor.green
+                    if currentQuestion < quiz.questions.count - 1 {
+                        let qvc = QuestionViewController()
+                        qvc.quiz = quiz
+                        qvc.currentQuestion = currentQuestion + 1
+                        self.navigationController?.pushViewController(qvc, animated: true)
+                    }
                  }
                  else{
                      _sender.backgroundColor = UIColor.red
@@ -56,4 +64,5 @@ class QuestionViewController: UIViewController {
             }
         }
     }
+    
 }

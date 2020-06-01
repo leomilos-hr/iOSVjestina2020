@@ -153,9 +153,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             }
         }
         
-        let qvc = QuestionViewController()
-        qvc.question = quizForCell.questions.randomElement()!
-        self.navigationController?.pushViewController(qvc, animated: true)
+        let mqsvc = MainQuizScreenViewController()
+        mqsvc.chosenQuiz = quizForCell
+        self.navigationController?.pushViewController(mqsvc, animated: true)
 
 //        randomQuestion = quizForCell.questions.randomElement()!
 //        mySubview.qlabel.text = randomQuestion!.question
