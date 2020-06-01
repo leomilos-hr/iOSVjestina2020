@@ -46,20 +46,30 @@ class MainQuizScreenViewController: UIViewController {
     
     @objc func buttonAction2(_sender: UIButton!){
             if _sender == mqs.questionView.button_exit{
-               let vc = ViewController()
-               self.navigationController?.pushViewController(vc, animated: true)
+               self.navigationController?.popViewController(animated: true)
             }
             
             for (index, answers) in chosenQuiz.questions[currentQuestion].answers.enumerated(){
                 if (_sender.currentTitle == answers){
                    if (index == chosenQuiz.questions[currentQuestion].correct_answer ){
                        _sender.backgroundColor = UIColor.green
-                       if currentQuestion < chosenQuiz.questions.count - 1 {
+                        currentQuestion += 1
+                       if currentQuestion < chosenQuiz.questions.count {
+                            mqs.questionView.qlabel.text = chosenQuiz.questions[currentQuestion].question
+                                      
+                            for (index, button) in [ mqs.questionView.button_a, mqs.questionView.button_b, mqs.questionView.button_c, mqs.questionView.button_d].enumerated(){
+                                button.setTitle(chosenQuiz.questions[currentQuestion].answers[index], for: .normal)
+                                button.backgroundColor = .blue
+                            }
+                            mqs.questionView.button_exit.setTitle("Izlaz", for: .normal)
 //                           let qvc = QuestionViewController()
 //                           qvc.quiz = chosenQuiz
 //                           qvc.currentQuestion = currentQuestion + 1
 //                           self.navigationController?.pushViewController(qvc, animated: true)
                        }
+                        if currentQuestion == chosenQuiz.questions.count {
+                             self.navigationController?.popViewController(animated: true)
+                            }
                     }
                     else{
                         _sender.backgroundColor = UIColor.red
