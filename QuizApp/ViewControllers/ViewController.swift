@@ -32,6 +32,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
         label.text = categoriesList[section]
+        label.textAlignment = .center
         switch categoriesList[section]{
            case "SCIENCE":
                label.backgroundColor = UIColor.orange
