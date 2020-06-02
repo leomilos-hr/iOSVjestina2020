@@ -17,7 +17,7 @@ class MainQuizScreenView: UIView {
     var imageQuiz : UIImageView = UIImageView()
     var startQuizButton = makeButton(title: "Start Quiz", titleColor: .black, background: .green, borderColor: .black)
     var questionScrollView : UIScrollView = UIScrollView()
-    var questionView: QuestionView! = QuestionView()
+    //var questionView: [QuestionView?] = []
 
     override init(frame: CGRect) {
        super.init(frame: frame)
@@ -37,10 +37,10 @@ class MainQuizScreenView: UIView {
         self.addSubview(imageQuiz)
         self.addSubview(startQuizButton)
         self.addSubview(questionScrollView)
-        questionScrollView.backgroundColor = .cyan
+        questionScrollView.backgroundColor = .white
         questionScrollView.isHidden = true
-        questionView = QuestionView(frame: self.frame)
-        questionScrollView.addSubview(questionView)
+        //questionView[0] = QuestionView(frame: self.frame)
+        //questionScrollView.addSubview(questionView[0]!)
     }
 
     override func updateConstraints() {

@@ -8,16 +8,22 @@
 
 import UIKit
 
-class MainQuizScreenViewController: UIViewController {
+class MainQuizScreenViewController: UIViewController, UIScrollViewDelegate {
 
     var chosenQuiz: Quiz!
     var currentQuestion : Int = 0
     var mqs: MainQuizScreenView!
+    var pageControl: UIPageControl = UIPageControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .green
         setupView()
+        setupSlideScrollView()
+        mqs.questionScrollView.delegate = self
+        pageControl.numberOfPages = 10
+        pageControl.currentPage = 0
+        view.bringSubviewToFront(pageControl)
     }
 
     func setupView(){
@@ -32,51 +38,44 @@ class MainQuizScreenViewController: UIViewController {
             mqs.imageQuiz.image = UIImage(data: imageCheck)
         }
         
-        mqs.questionView.qlabel.text = chosenQuiz.questions[currentQuestion].question
-               
-        for (index, button) in [ mqs.questionView.button_a, mqs.questionView.button_b, mqs.questionView.button_c, mqs.questionView.button_d].enumerated(){
-            button.setTitle(chosenQuiz.questions[currentQuestion].answers[index], for: .normal)
-        }
-          mqs.questionView.button_exit.setTitle("Izlaz", for: .normal)
         
-        for button in [mqs.questionView.button_a, mqs.questionView.button_b, mqs.questionView.button_c, mqs.questionView.button_d, mqs.questionView.button_exit]{
-            button.addTarget(self, action: #selector(self.buttonAction2), for: .touchUpInside)
-        }
+        
+        
     }
     
-    @objc func buttonAction2(_sender: UIButton!){
-            if _sender == mqs.questionView.button_exit{
-               self.navigationController?.popViewController(animated: true)
-            }
-            
-            for (index, answers) in chosenQuiz.questions[currentQuestion].answers.enumerated(){
-                if (_sender.currentTitle == answers){
-                   if (index == chosenQuiz.questions[currentQuestion].correct_answer ){
-                       _sender.backgroundColor = UIColor.green
-                        currentQuestion += 1
-                       if currentQuestion < chosenQuiz.questions.count {
-                            mqs.questionView.qlabel.text = chosenQuiz.questions[currentQuestion].question
-                                      
-                            for (index, button) in [ mqs.questionView.button_a, mqs.questionView.button_b, mqs.questionView.button_c, mqs.questionView.button_d].enumerated(){
-                                button.setTitle(chosenQuiz.questions[currentQuestion].answers[index], for: .normal)
-                                button.backgroundColor = .blue
-                            }
-                            mqs.questionView.button_exit.setTitle("Izlaz", for: .normal)
-//                           let qvc = QuestionViewController()
-//                           qvc.quiz = chosenQuiz
-//                           qvc.currentQuestion = currentQuestion + 1
-//                           self.navigationController?.pushViewController(qvc, animated: true)
-                       }
-                        if currentQuestion == chosenQuiz.questions.count {
-                             self.navigationController?.popViewController(animated: true)
-                            }
-                    }
-                    else{
-                        _sender.backgroundColor = UIColor.red
-                    }
-               }
-           }
-       }
+//    @objc func buttonAction2(_sender: UIButton!){
+//            if _sender == mqs.questionView.button_exit{
+//               self.navigationController?.popViewController(animated: true)
+//            }
+//
+//            for (index, answers) in chosenQuiz.questions[currentQuestion].answers.enumerated(){
+//                if (_sender.currentTitle == answers){
+//                   if (index == chosenQuiz.questions[currentQuestion].correct_answer ){
+//                       _sender.backgroundColor = UIColor.green
+//                        currentQuestion += 1
+//                       if currentQuestion < chosenQuiz.questions.count {
+//                            mqs.questionView.qlabel.text = chosenQuiz.questions[currentQuestion].question
+//
+//                            for (index, button) in [ mqs.questionView.button_a, mqs.questionView.button_b, mqs.questionView.button_c, mqs.questionView.button_d].enumerated(){
+//                                button.setTitle(chosenQuiz.questions[currentQuestion].answers[index], for: .normal)
+//                                button.backgroundColor = .blue
+//                            }
+//                            mqs.questionView.button_exit.setTitle("Izlaz", for: .normal)
+////                           let qvc = QuestionViewController()
+////                           qvc.quiz = chosenQuiz
+////                           qvc.currentQuestion = currentQuestion + 1
+////                           self.navigationController?.pushViewController(qvc, animated: true)
+//                       }
+//                        if currentQuestion == chosenQuiz.questions.count {
+//                             self.navigationController?.popViewController(animated: true)
+//                            }
+//                    }
+//                    else{
+//                        _sender.backgroundColor = UIColor.red
+//                    }
+//               }
+//           }
+//       }
 
 
     @objc func buttonAction(_sender: UIButton!){
@@ -90,6 +89,36 @@ class MainQuizScreenViewController: UIViewController {
 //
         self.mqs.questionScrollView.isHidden = false
         
+    }
+    
+    func setupSlideScrollView() {
+        var y: CGFloat = 0
+        //self.mqs.questionScrollView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: //view.frame.height)
+        self.mqs.questionScrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.mqs.questionScrollView.contentSize = CGSize(width: view.frame.width * CGFloat(chosenQuiz.questions.count), height: view.frame.height)
+        self.mqs.questionScrollView.isPagingEnabled = true
+        
+        for ques in chosenQuiz.questions{
+            let questionView = QuestionView(frame: self.view.frame)
+            questionView.qlabel.text = ques.question
+                   
+            for (index, button) in [ questionView.button_a, questionView.button_b, questionView.button_c, questionView.button_d].enumerated(){
+                button.setTitle(ques.answers[index], for: .normal)
+            }
+              questionView.button_exit.setTitle("Izlaz", for: .normal)
+            
+            questionView.sizeToFit()
+            questionView.frame.origin = CGPoint(x: y,y: 0)
+            y += view.frame.width
+            
+             mqs.questionScrollView.addSubview(questionView)
+            
+            //for button in [questionView.button_a, questionView.button_b, questionView.button_c, questionView.button_d, questionView.button_exit]{
+            //    button.addTarget(self, action: #selector(self.buttonAction2), for: .touchUpInside)
+            //}
+            
+            print(mqs.questionScrollView.subviews.count)
+        }
     }
 
 }
