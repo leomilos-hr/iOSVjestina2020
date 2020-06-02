@@ -39,6 +39,7 @@ class MainQuizScreenView: UIView {
         self.addSubview(questionScrollView)
         questionScrollView.backgroundColor = .white
         questionScrollView.isHidden = true
+        //questionScrollView.isScrollEnabled = false
         //questionView[0] = QuestionView(frame: self.frame)
         //questionScrollView.addSubview(questionView[0]!)
     }

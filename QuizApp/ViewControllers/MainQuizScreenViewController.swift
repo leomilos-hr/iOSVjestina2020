@@ -92,13 +92,13 @@ class MainQuizScreenViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func setupSlideScrollView() {
-        var y: CGFloat = 0
+        var w: CGFloat = 0
         //self.mqs.questionScrollView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: //view.frame.height)
         self.mqs.questionScrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.mqs.questionScrollView.contentSize = CGSize(width: view.frame.width * CGFloat(chosenQuiz.questions.count), height: view.frame.height)
         self.mqs.questionScrollView.isPagingEnabled = true
         
-        for ques in chosenQuiz.questions{
+        for (index, ques) in chosenQuiz.questions.enumerated(){
             let questionView = QuestionView(frame: self.view.frame)
             questionView.qlabel.text = ques.question
                    
@@ -108,16 +108,45 @@ class MainQuizScreenViewController: UIViewController, UIScrollViewDelegate {
               questionView.button_exit.setTitle("Izlaz", for: .normal)
             
             questionView.sizeToFit()
-            questionView.frame.origin = CGPoint(x: y,y: 0)
-            y += view.frame.width
+            questionView.frame.origin = CGPoint(x: w,y: 0)
+            w += view.frame.width
+            
+            //mqs.questionScrollView.setContentOffset(CGPoint(x: view.frame.width, y: 0), animated: true)
+            
+            for button in [questionView.button_a, questionView.button_b, questionView.button_c, questionView.button_d, questionView.button_exit]{
+                button.addTarget(self, action: #selector(self.buttonAction2), for: .touchUpInside)
+                button.question = ques
+                button.numberOfQuestions = chosenQuiz.questions.count
+                button.currentQuestion = index
+            }
             
              mqs.questionScrollView.addSubview(questionView)
-            
-            //for button in [questionView.button_a, questionView.button_b, questionView.button_c, questionView.button_d, questionView.button_exit]{
-            //    button.addTarget(self, action: #selector(self.buttonAction2), for: .touchUpInside)
-            //}
-            
-            print(mqs.questionScrollView.subviews.count)
+
+        }
+    }
+    
+    var nextScreen : CGFloat = 0
+    
+    @objc func buttonAction2(_sender: CustomButton!){
+        if _sender.currentTitle == "Izlaz"{
+            self.navigationController?.popViewController(animated: true)
+         }
+        for (index, answers) in _sender.question.answers.enumerated(){
+             if (_sender.currentTitle == answers){
+                if (index == _sender.question.correct_answer ){
+                    _sender.backgroundColor = UIColor.green
+                    nextScreen += view.frame.width
+                    if _sender.currentQuestion < _sender.numberOfQuestions - 1 {
+                         mqs.questionScrollView.setContentOffset(CGPoint(x: nextScreen, y: 0), animated: true)
+                    }
+                    else{
+                         self.navigationController?.popViewController(animated: true)
+                    }
+                 }
+                 else{
+                     _sender.backgroundColor = UIColor.red
+                 }
+            }
         }
     }
 

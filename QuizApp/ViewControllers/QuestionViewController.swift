@@ -13,7 +13,7 @@ class QuestionViewController: UIViewController {
     var quiz: Quiz!
     var currentQuestion: Int!
     var questionView: QuestionView!
-   
+    var questionScrollView : UIScrollView!
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -14,11 +14,11 @@ class QuestionView: UIView {
     var shouldSetupConstraints = true
     
     var qlabel: UILabel = UILabel()
-    var button_a = makeButton(background: .blue)
-    var button_b = makeButton(background: .blue)
-    var button_c = makeButton(background: .blue)
-    var button_d = makeButton(background: .blue)
-    var button_exit = makeButton(background: .blue)
+    var button_a = CustomButton()
+    var button_b =  CustomButton()
+    var button_c =  CustomButton()
+    var button_d =  CustomButton()
+    var button_exit =  CustomButton()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -55,6 +55,8 @@ class QuestionView: UIView {
 
     }
     
+    
+    
 
 //    override func updateViewConstraints() {
 //      if(shouldSetupConstraints) {
@@ -76,6 +78,32 @@ class QuestionView: UIView {
 //
 //      updateViewConstraints()
 //    }
+}
+
+class CustomButton: UIButton {
+
+    var myValue: Int
+    var question: Question
+    var numberOfQuestions: Int
+    var currentQuestion : Int
+
+    override init(frame: CGRect) {
+        // set myValue before super.init is called
+        self.myValue = 0
+        self.question = Question(id: 0, question: "", answers: [], correct_answer: 0)
+        self.numberOfQuestions = 0
+        self.currentQuestion = 0
+
+        super.init(frame: frame)
+
+        // set other operations after super.init, if required
+        backgroundColor = .blue
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
 }
 
 
