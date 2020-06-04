@@ -18,9 +18,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     let button_get = makeButton(title: "Dohvati", background: .green)
     var tableView = UITableView()
     var mySubview: QuestionView!
+    var ima1 : NSMutableArray = []
+    var constraintsWith = [NSLayoutConstraint]()
+    var c1 : NSLayoutConstraint!
+    var c2 : NSLayoutConstraint!
+   
+   
+    
     
     var list_of_quizzes = Quizzes(quizzes:[])
     var categoriesList: [String] = []
+    var rowCounter : CGFloat = 0
     
     override func viewDidLoad() {
         tableView.dataSource = self
@@ -67,8 +75,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         for quiz in list_of_quizzes.quizzes{
             if quiz.category == categoriesList[section]{
                 counter += 1
+                rowCounter += 1
             }
         }
+        //print("\(counter)")
         return counter
     }
     
@@ -209,21 +219,61 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                self.list_of_quizzes = _quizzes
                let sum_of_questions_containing_NBA: Int = self.list_of_quizzes.quizzes.map{$0.questions.filter{$0.question.contains("NBA")}}.count
                self.fun_fact.text = "Ukupno pitanja koja u tekstu pitanja sadrže riječ “NBA”: \(sum_of_questions_containing_NBA)"
-               self.tableView.reloadData()
+                //self.view.viewWithTag(10)!.removeFromSuperview()
+                //self.tableView = UITableView()
+                //self.tableView = UITableView()
+                
+                //self.view.addSubview(self.tableView)
+
+                
+           
+                self.tableView.reloadData()
+                NSLayoutConstraint.deactivate(self.constraintsWith)
+                self.constraintsWith = [NSLayoutConstraint]()
+                
+                
+                //self.loadView()
+                let heightTableView1 = self.view.frame.height *  self.rowCounter / 8
+                let heightTableView2 = self.view.frame.height *  CGFloat(self.categoriesList.count) / 16
+                let heightTableView = heightTableView1 + heightTableView2
+                self.rowCounter = 0
+                self.tableView.autoSetDimensions(to: CGSize(width: self.view.frame.width, height: heightTableView))
+                self.c1 = self.tableView.heightAnchor.constraint(equalToConstant: heightTableView)
+                self.c2 = self.tableView.widthAnchor.constraint(equalToConstant: self.view.frame.width)
+                self.constraintsWith.append(self.c1)
+                self.constraintsWith.append(self.c2)
+                NSLayoutConstraint.activate(self.constraintsWith)
                 self.titlesQuiz.removeAll()
+                //ima1.removeObject(at: 0)
+                //self.ima1.autoRemoveConstraints()
+                //self.tableView = UITableView(frame: CGRect(x:0,y:300,width:self.view.frame.width, height: //self.view.frame.height))
+               
+                //self.tableView.autoPinEdge(.top, to: .bottom, of: self.fun_fact, withOffset: self.view.frame.height / 30))
+                //self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: heightTableView)
+                //print("\(heightTableView)")
+                //self.tableView.autoSetDimension(.width, to: view.frame.width)
+                //self.tableView.autoSetDimension(.height, to: heightTableView)
+                //self.tableView.frame = CGRect(x: 0, y: 400, width: self.view.frame.width, height: heightTableView);
+                //self.view.addSubview(self.tableView)
+              
+                //self.tableView.autoPinEdge(.top, to: .bottom, of: self.fun_fact, withOffset: self.view.frame.height / 30)
+                
+                //self.tableView.autoSetDimensions(to: CGSize(width: self.view.frame.width, height: heightTableView))
+                //self.tableView.tag = 10
+                //self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: heightTableView)
+                
+                
             }
             else {
                 print(message)
                 Alert.showBasic(title: "Greška", message: "Greška u dohvaćanju podataka", vc: self!)
             }
         }
-   
+        
+           //self.view.setNeedsUpdateConstraints()
+        
         self.button_get.isEnabled = true
     }
-}
-
-// MARK: PureLayout Implementation
-extension ViewController {
     
     override func loadView() {
         view = UIView()
@@ -232,7 +282,9 @@ extension ViewController {
         fun_fact.text = "Fun Fact"
         fun_fact.numberOfLines = 0
         view.addSubview(fun_fact)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
+        //didSetupConstraints = false
         view.setNeedsUpdateConstraints()
     }
     
@@ -246,11 +298,38 @@ extension ViewController {
             fun_fact.autoPinEdge(toSuperviewEdge: .trailing, withInset: 15)
             fun_fact.autoPinEdge(toSuperviewEdge: .leading, withInset: 15)
             
-            tableView.autoSetDimensions(to: CGSize(width: self.view.frame.width, height: self.view.frame.size.height))
             tableView.autoPinEdge(.top, to: .bottom, of: fun_fact, withOffset: self.view.frame.height / 30)
-            
-            didSetupConstraints = true
+            c1 = tableView.heightAnchor.constraint(equalToConstant: 0)
+            c2 = tableView.widthAnchor.constraint(equalToConstant: view.frame.width)
+            constraintsWith.append(c1)
+            constraintsWith.append(c2)
+            NSLayoutConstraint.activate(constraintsWith)
+             
         }
+        //didSetupConstraints = true
         super.updateViewConstraints()
     }
+
+    
 }
+
+// MARK: PureLayout Implementation
+extension ViewController {
+    
+    
+}
+
+//class SelfSizedTableView: UITableView {
+//
+//  override func reloadData() {
+//    super.reloadData()
+//    self.invalidateIntrinsicContentSize()
+//    self.layoutIfNeeded()
+//  }
+//
+//  override var intrinsicContentSize: CGSize {
+//    let height = contentSize.height
+//    return CGSize(width: contentSize.width, height: height)
+//  }
+//}
+//
