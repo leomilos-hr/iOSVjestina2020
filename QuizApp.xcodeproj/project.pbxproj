@@ -12,6 +12,7 @@
 		52415D0724812E2B00F05C62 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52415D0624812E2B00F05C62 /* CustomTableViewCell.swift */; };
 		52415D0924813F1B00F05C62 /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52415D0824813F1B00F05C62 /* QuestionView.swift */; };
 		525401CE248A7D0300A1C6C2 /* background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 525401CD248A7D0300A1C6C2 /* background.jpg */; };
+		525401D0248AA21C00A1C6C2 /* background2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 525401CF248AA21C00A1C6C2 /* background2.jpg */; };
 		5281BEA7243FDEB4000CCF3F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5281BEA6243FDEB4000CCF3F /* AppDelegate.swift */; };
 		5281BEA9243FDEB4000CCF3F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5281BEA8243FDEB4000CCF3F /* SceneDelegate.swift */; };
 		5281BEAB243FDEB4000CCF3F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5281BEAA243FDEB4000CCF3F /* ViewController.swift */; };
@@ -33,6 +34,8 @@
 		52415D0624812E2B00F05C62 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		52415D0824813F1B00F05C62 /* QuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
 		525401CD248A7D0300A1C6C2 /* background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = background.jpg; path = ../../../../Downloads/background.jpg; sourceTree = "<group>"; };
+		525401CF248AA21C00A1C6C2 /* background2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = background2.jpg; path = ../../background2.jpg; sourceTree = "<group>"; };
+		525401D1248AA22100A1C6C2 /* background2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = background2.jpg; sourceTree = "<group>"; };
 		5281BEA3243FDEB4000CCF3F /* QuizApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuizApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5281BEA6243FDEB4000CCF3F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5281BEA8243FDEB4000CCF3F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -108,6 +111,7 @@
 		5281BE9A243FDEB4000CCF3F = {
 			isa = PBXGroup;
 			children = (
+				525401CF248AA21C00A1C6C2 /* background2.jpg */,
 				5281BEA5243FDEB4000CCF3F /* QuizApp */,
 				5281BEA4243FDEB4000CCF3F /* Products */,
 				53E9253F89E52BC217233571 /* Pods */,
@@ -134,6 +138,7 @@
 				5281BEA8243FDEB4000CCF3F /* SceneDelegate.swift */,
 				5281BEAF243FDEB8000CCF3F /* Assets.xcassets */,
 				525401CD248A7D0300A1C6C2 /* background.jpg */,
+				525401D1248AA22100A1C6C2 /* background2.jpg */,
 				5281BEB4243FDEB8000CCF3F /* Info.plist */,
 			);
 			path = QuizApp;
@@ -217,6 +222,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				525401CE248A7D0300A1C6C2 /* background.jpg in Resources */,
+				525401D0248AA21C00A1C6C2 /* background2.jpg in Resources */,
 				5281BEB0243FDEB8000CCF3F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

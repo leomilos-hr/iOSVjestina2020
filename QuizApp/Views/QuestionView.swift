@@ -32,7 +32,7 @@ class QuestionView: UIView {
     
     func setup(){
         backgroundColor = .darkGray
-        qlabel.backgroundColor = .darkGray
+        qlabel.backgroundColor = .clear
         qlabel.numberOfLines = 0
         qlabel.textAlignment = .center
         qlabel.textColor = .white
@@ -43,8 +43,21 @@ class QuestionView: UIView {
         self.addSubview(button_b)
         self.addSubview(button_c)
         self.addSubview(button_d)
-        button_exit.backgroundColor = .black
+        button_exit.backgroundColor = .orange
         self.addSubview(button_exit)
+        backgroundSetup()
+    }
+    
+    func backgroundSetup(){
+        let background = UIImage(named: "background2.jpg")
+        var imageView : UIImageView!
+        imageView = UIImageView(frame: self.bounds)
+        imageView.contentMode =  UIView.ContentMode.scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.image = background
+        imageView.center = self.center
+        self.addSubview(imageView)
+        self.sendSubviewToBack(imageView)
     }
 
     override func updateConstraints() {

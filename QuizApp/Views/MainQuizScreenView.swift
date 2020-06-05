@@ -43,6 +43,19 @@ class MainQuizScreenView: UIView {
         self.addSubview(questionScrollView)
         questionScrollView.backgroundColor = .white
         questionScrollView.isHidden = true
+        backgroundSetup()
+    }
+    
+    func backgroundSetup(){
+        let background = UIImage(named: "background2.jpg")
+        var imageView : UIImageView!
+        imageView = UIImageView(frame: self.bounds)
+        imageView.contentMode =  UIView.ContentMode.scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.image = background
+        imageView.center = self.center
+        self.addSubview(imageView)
+        self.sendSubviewToBack(imageView)
     }
 
     override func updateConstraints() {
