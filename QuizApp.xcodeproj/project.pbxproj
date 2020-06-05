@@ -19,6 +19,7 @@
 		52BC6FA924851DA1002047B3 /* QuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BC6FA824851DA1002047B3 /* QuestionViewController.swift */; };
 		52BC6FAB24852E1D002047B3 /* MainQuizScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BC6FAA24852E1D002047B3 /* MainQuizScreenView.swift */; };
 		52BC6FAD24853154002047B3 /* MainQuizScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BC6FAC24853154002047B3 /* MainQuizScreenViewController.swift */; };
+		52BC6FAF248A69B8002047B3 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BC6FAE248A69B8002047B3 /* CustomButton.swift */; };
 		52D4026D247567B900BED67F /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D4026C247567B900BED67F /* Service.swift */; };
 		52D4026F247568A500BED67F /* Quiz.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D4026E247568A500BED67F /* Quiz.swift */; };
 		52D40273247568D200BED67F /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D40272247568D200BED67F /* Question.swift */; };
@@ -42,6 +43,7 @@
 		52BC6FA824851DA1002047B3 /* QuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewController.swift; sourceTree = "<group>"; };
 		52BC6FAA24852E1D002047B3 /* MainQuizScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainQuizScreenView.swift; sourceTree = "<group>"; };
 		52BC6FAC24853154002047B3 /* MainQuizScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainQuizScreenViewController.swift; sourceTree = "<group>"; };
+		52BC6FAE248A69B8002047B3 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		52D4026C247567B900BED67F /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		52D4026E247568A500BED67F /* Quiz.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quiz.swift; sourceTree = "<group>"; };
 		52D40272247568D200BED67F /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 				52DC56732475808900B037FA /* Quizzes.swift */,
 				52DC56752475933600B037FA /* Alert.swift */,
 				52415D042481164A00F05C62 /* MakeButton.swift */,
+				52BC6FAE248A69B8002047B3 /* CustomButton.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -79,10 +82,10 @@
 		52415D0B24815D5100F05C62 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				52415D0824813F1B00F05C62 /* QuestionView.swift */,
 				52415D0624812E2B00F05C62 /* CustomTableViewCell.swift */,
 				520051DC24818A900062F55B /* LoginView.swift */,
 				52BC6FAA24852E1D002047B3 /* MainQuizScreenView.swift */,
+				52415D0824813F1B00F05C62 /* QuestionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -282,6 +285,7 @@
 				52415D052481164A00F05C62 /* MakeButton.swift in Sources */,
 				5281BEA9243FDEB4000CCF3F /* SceneDelegate.swift in Sources */,
 				52DC56742475808900B037FA /* Quizzes.swift in Sources */,
+				52BC6FAF248A69B8002047B3 /* CustomButton.swift in Sources */,
 				52DC56762475933600B037FA /* Alert.swift in Sources */,
 				520051DF24818BA10062F55B /* LoginViewController.swift in Sources */,
 				52D4026D247567B900BED67F /* Service.swift in Sources */,

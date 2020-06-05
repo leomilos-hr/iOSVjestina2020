@@ -15,7 +15,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     var didSetupConstraints = false
     var fun_fact = UILabel()
-    let button_get = makeButton(title: "Dohvati", background: .green)
+    //let button_get = makeButton(title: "Dohvati", background: .green)
+    var button_get = UIButton()
     var tableView = UITableView()
     var mySubview: QuestionView!
     var ima1 : NSMutableArray = []
@@ -50,6 +51,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                label.backgroundColor = UIColor.red
         }
         label.textColor = UIColor.white
+        label.layer.borderColor = UIColor.black.cgColor
+        label.layer.borderWidth = 1.0
         return label
     }
     
@@ -106,6 +109,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         cell.detailTextLabel?.numberOfLines = 0
         cell.detailTextLabel?.sizeToFit()
         cell.detailTextLabel?.textAlignment = .left
+        cell.layer.borderColor = UIColor.black.cgColor
+        cell.layer.borderWidth = 1.0
         
         cell.textLevel.textColor = .green
         cell.textLevel.font = UIFont.boldSystemFont(ofSize: 30)
@@ -278,6 +283,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func loadView() {
         view = UIView()
         view.backgroundColor = UIColor.white
+        button_get.backgroundColor = .green
+        button_get.setTitle("Dohvati", for: .normal)
+        button_get.setTitleColor(.black, for: .normal)
         view.addSubview(button_get)
         fun_fact.text = "Fun Fact"
         fun_fact.numberOfLines = 0

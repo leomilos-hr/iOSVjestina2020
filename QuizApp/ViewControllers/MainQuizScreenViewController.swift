@@ -7,15 +7,18 @@
 //
 
 import UIKit
+import Alamofire
 
-class MainQuizScreenViewController: UIViewController, UIScrollViewDelegate {
+class MainQuizScreenViewController: UIViewController {
 
+    var nextScreen : CGFloat = 0
     var chosenQuiz: Quiz!
     var currentQuestion : Int = 0
     var mqs: MainQuizScreenView!
-    var pageControl: UIPageControl = UIPageControl()
     var start : Date?
     var questionsAnsweredCorrectly : Int = 0
+    var elapsedTime : Double!
+    let defaults = UserDefaults.standard
     
     
     override func viewDidLoad() {
@@ -23,16 +26,11 @@ class MainQuizScreenViewController: UIViewController, UIScrollViewDelegate {
         view.backgroundColor = .green
         setupView()
         setupSlideScrollView()
-        mqs.questionScrollView.delegate = self
-        pageControl.numberOfPages = 10
-        pageControl.currentPage = 0
-        view.bringSubviewToFront(pageControl)
     }
 
     func setupView(){
-        let mainView = MainQuizScreenView(frame: self.view.frame)
-        self.mqs = mainView
-        self.view.addSubview(mqs)
+        mqs = MainQuizScreenView(frame: self.view.frame)
+        view.addSubview(mqs)
         mqs.quizTitle.text = chosenQuiz.title
         mqs.startQuizButton.addTarget(self, action: #selector(self.buttonAction), for: .touchUpInside)
         let imageUrl = URL(string: chosenQuiz.image)
@@ -53,14 +51,14 @@ class MainQuizScreenViewController: UIViewController, UIScrollViewDelegate {
         self.mqs.questionScrollView.contentSize = CGSize(width: view.frame.width * CGFloat(chosenQuiz.questions.count), height: view.frame.height)
         self.mqs.questionScrollView.isPagingEnabled = true
         
-        for (index, ques) in chosenQuiz.questions.enumerated(){
+        for (index, question) in chosenQuiz.questions.enumerated(){
             let questionView = QuestionView(frame: self.view.frame)
-            questionView.qlabel.text = ques.question
+            questionView.qlabel.text = question.question
                    
             for (index, button) in [ questionView.button_a, questionView.button_b, questionView.button_c, questionView.button_d].enumerated(){
-                button.setTitle(ques.answers[index], for: .normal)
+                button.setTitle(question.answers[index], for: .normal)
             }
-              questionView.button_exit.setTitle("Izlaz", for: .normal)
+            questionView.button_exit.setTitle("Izlaz", for: .normal)
             
             questionView.sizeToFit()
             questionView.frame.origin = CGPoint(x: w,y: 0)
@@ -68,7 +66,7 @@ class MainQuizScreenViewController: UIViewController, UIScrollViewDelegate {
             
             for button in [questionView.button_a, questionView.button_b, questionView.button_c, questionView.button_d, questionView.button_exit]{
                 button.addTarget(self, action: #selector(self.buttonAction2), for: .touchUpInside)
-                button.question = ques
+                button.question = question
                 button.numberOfQuestions = chosenQuiz.questions.count
                 button.currentQuestion = index
             }
@@ -78,7 +76,7 @@ class MainQuizScreenViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
-    var nextScreen : CGFloat = 0
+   
     
     @objc func buttonAction2(_sender: CustomButton!){
         if _sender.currentTitle == "Izlaz"{
@@ -100,9 +98,33 @@ class MainQuizScreenViewController: UIViewController, UIScrollViewDelegate {
                     mqs.questionScrollView.setContentOffset(CGPoint(x: nextScreen, y: 0), animated: true)
                 }
                 else{
+                    elapsedTime = start!.timeIntervalSinceNow * -1
                   print("Elapsed time: \(start!.timeIntervalSinceNow * -1) seconds")
                   print("Questions answered correctly: \(questionsAnsweredCorrectly)")
-                   self.navigationController?.popViewController(animated: true)
+            let parameters: [String: Any] = [
+                "quiz_id": chosenQuiz.id,
+                "user_id": defaults.object(forKey: "user_id")!,
+                "time": elapsedTime!,
+                "no_of_correct": questionsAnsweredCorrectly
+                       ]
+            let headers: HTTPHeaders = [
+                .authorization(defaults.object(forKey: "token") as! String),
+                .accept("application/json")
+            ]
+                   
+                    AF.request("https://iosquiz.herokuapp.com/api/result", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+               .responseJSON { response in
+                   print(response)
+                   switch response.result {
+                       case .success:
+                            debugPrint(response)
+                            self.navigationController?.popViewController(animated: true)
+                       case .failure(let error):
+                           print(error)
+                            debugPrint(response)
+                        
+                       }
+                   }
               }
                 
             }

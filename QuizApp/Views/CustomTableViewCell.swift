@@ -6,13 +6,11 @@
 //  Copyright © 2020 five. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import PureLayout
 
 class CustomTableViewCell: UITableViewCell {
     
-    //var shouldSetupConstraints = false
     var textLevel = UILabel()
     
     override func awakeFromNib() {
@@ -24,7 +22,6 @@ class CustomTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
 
-    // Here you can customize the appearance of your cell
     override func layoutSubviews() {
         super.layoutSubviews()
     
@@ -34,7 +31,7 @@ class CustomTableViewCell: UITableViewCell {
                
         self.textLabel?.autoSetDimensions(to: CGSize(width: self.frame.width * 7/15, height: self.frame.height * 2/5))
         self.textLabel?.autoPinEdge(.left, to: .right, of: self.imageView!, withOffset: self.frame.width / 30)
-       /// self.textLabel?.autoPinEdge(.right, to: .right, of: self, withOffset: -100)
+    
         
         self.detailTextLabel?.autoSetDimensions(to: CGSize(width: self.frame.width * 7/15, height: self.frame.height * 3/5))
         self.detailTextLabel?.autoPinEdge(.left, to: .right, of: self.imageView!, withOffset: self.frame.width / 30)
