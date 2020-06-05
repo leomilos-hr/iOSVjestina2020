@@ -16,14 +16,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var navigationController: UINavigationController!
 
 
-   func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: UIScreen.main.bounds)
     
         if (defaults.object(forKey: "token") != nil && defaults.object(forKey: "user_id") != nil){
-            print("bez login ekrana")
-            //defaults.removeObject(forKey: "user_id")
-            //defaults.removeObject(forKey: "token")
+            //print("bez login ekrana")
             viewController = ViewController()
             window?.rootViewController = viewController
             navigationController = UINavigationController(rootViewController: viewController)
