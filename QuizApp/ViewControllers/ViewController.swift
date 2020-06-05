@@ -97,7 +97,7 @@ class ViewController: UIViewController {
 extension ViewController {
     override func loadView() {
         view = UIView()
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = .white
         button_get.backgroundColor = .orange
         button_get.setTitle("List of Quizzes", for: .normal)
         button_get.setTitleColor(.white, for: .normal)
@@ -149,6 +149,7 @@ extension ViewController: UITableViewDataSource {
         let label = UILabel()
         label.text = categoriesList[section]
         label.textAlignment = .center
+        label.font = UIFont.boldSystemFont(ofSize: 20.0)
         switch categoriesList[section]{
            case "SCIENCE":
                label.backgroundColor = UIColor.green
@@ -158,7 +159,7 @@ extension ViewController: UITableViewDataSource {
                label.backgroundColor = UIColor.red
         }
         label.textColor = UIColor.white
-        label.layer.borderColor = UIColor.black.cgColor
+        label.layer.borderColor = UIColor.lightGray.cgColor
         label.layer.borderWidth = 1.0
         return label
     }
@@ -214,7 +215,7 @@ extension ViewController: UITableViewDataSource {
         cell.detailTextLabel?.numberOfLines = 0
         cell.detailTextLabel?.sizeToFit()
         cell.detailTextLabel?.textAlignment = .left
-        cell.layer.borderColor = UIColor.black.cgColor
+        cell.layer.borderColor = UIColor.lightGray.cgColor
         cell.layer.borderWidth = 1.0
           
         cell.textLevel.textColor = .green
