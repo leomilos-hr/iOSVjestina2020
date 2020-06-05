@@ -32,7 +32,7 @@ class MainQuizScreenViewController: UIViewController {
         mqs = MainQuizScreenView(frame: self.view.frame)
         view.addSubview(mqs)
         mqs.quizTitle.text = chosenQuiz.title
-        mqs.startQuizButton.addTarget(self, action: #selector(self.buttonAction), for: .touchUpInside)
+        mqs.startQuizButton.addTarget(self, action: #selector(self.showQuiz), for: .touchUpInside)
         let imageUrl = URL(string: chosenQuiz.image)
         let dataImage = try? Data(contentsOf: imageUrl!)
         if let imageCheck = dataImage {
@@ -40,11 +40,6 @@ class MainQuizScreenViewController: UIViewController {
         }
     }
 
-    @objc func buttonAction(_sender: UIButton!){
-        self.mqs.questionScrollView.isHidden = false
-        start = Date()
-    }
-    
     func setupSlideScrollView() {
         var w: CGFloat = 0
         self.mqs.questionScrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -58,30 +53,36 @@ class MainQuizScreenViewController: UIViewController {
             for (index, button) in [ questionView.button_a, questionView.button_b, questionView.button_c, questionView.button_d].enumerated(){
                 button.setTitle(question.answers[index], for: .normal)
             }
-            questionView.button_exit.setTitle("Izlaz", for: .normal)
+            questionView.button_exit.setTitle("Exit", for: .normal)
             
             questionView.sizeToFit()
             questionView.frame.origin = CGPoint(x: w,y: 0)
             w += view.frame.width
             
-            for button in [questionView.button_a, questionView.button_b, questionView.button_c, questionView.button_d, questionView.button_exit]{
-                button.addTarget(self, action: #selector(self.buttonAction2), for: .touchUpInside)
+            for button in [questionView.button_a, questionView.button_b, questionView.button_c, questionView.button_d]{
+                button.addTarget(self, action: #selector(self.questionAction), for: .touchUpInside)
                 button.question = question
                 button.numberOfQuestions = chosenQuiz.questions.count
                 button.currentQuestion = index
             }
+            questionView.button_exit.addTarget(self, action: #selector(self.exitAction), for: .touchUpInside)
             
-             mqs.questionScrollView.addSubview(questionView)
+            mqs.questionScrollView.addSubview(questionView)
 
         }
     }
     
+    @objc func showQuiz(_sender: UIButton!){
+        self.mqs.questionScrollView.isHidden = false
+        start = Date()
+    }
+    
+   @objc func exitAction(_sender: CustomButton!){
+        self.navigationController?.popViewController(animated: true)
+    }
    
     
-    @objc func buttonAction2(_sender: CustomButton!){
-        if _sender.currentTitle == "Izlaz"{
-            self.navigationController?.popViewController(animated: true)
-         }
+    @objc func questionAction(_sender: CustomButton!){
         for (index, answers) in _sender.question.answers.enumerated(){
              if (_sender.currentTitle == answers){
                 if (index == _sender.question.correct_answer ){
@@ -99,33 +100,32 @@ class MainQuizScreenViewController: UIViewController {
                 }
                 else{
                     elapsedTime = start!.timeIntervalSinceNow * -1
-                  print("Elapsed time: \(start!.timeIntervalSinceNow * -1) seconds")
-                  print("Questions answered correctly: \(questionsAnsweredCorrectly)")
-            let parameters: [String: Any] = [
-                "quiz_id": chosenQuiz.id,
-                "user_id": defaults.object(forKey: "user_id")!,
-                "time": elapsedTime!,
-                "no_of_correct": questionsAnsweredCorrectly
-                       ]
-            let headers: HTTPHeaders = [
-                .authorization(defaults.object(forKey: "token") as! String),
-                .accept("application/json")
-            ]
+                    print("Elapsed time: \(start!.timeIntervalSinceNow * -1) seconds")
+                    print("Questions answered correctly: \(questionsAnsweredCorrectly)")
+                    let parameters: [String: Any] = [
+                        "quiz_id": chosenQuiz.id,
+                        "user_id": defaults.object(forKey: "user_id")!,
+                        "time": elapsedTime!,
+                        "no_of_correct": questionsAnsweredCorrectly
+                    ]
+                    let headers: HTTPHeaders = [
+                        .authorization(defaults.object(forKey: "token") as! String),
+                        .accept("application/json")
+                    ]
                    
-                    AF.request("https://iosquiz.herokuapp.com/api/result", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
-               .responseJSON { response in
-                   print(response)
-                   switch response.result {
-                       case .success:
-                            debugPrint(response)
-                            self.navigationController?.popViewController(animated: true)
-                       case .failure(let error):
-                           print(error)
-                            debugPrint(response)
-                        
-                       }
-                   }
-              }
+                    AF.request("https://iosquiz.herokuapp.com/api/result", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate(statusCode: 200..<300)
+                        .responseJSON { response in
+                            print(response)
+                            switch response.result {
+                                case .success:
+                                    debugPrint(response)
+                                    self.navigationController?.popViewController(animated: true)
+                                case .failure(let error):
+                                    print(error)
+                                    debugPrint(response)
+                            }
+                        }
+                }
                 
             }
         }

@@ -32,18 +32,21 @@ class LoginView: UIView {
         backgroundColor = .darkText
         userField.backgroundColor = .white
         passwordField.backgroundColor = .white
-        loginButton.setTitle("LOGIN", for: .normal)
-        loginButton.backgroundColor = .gray
+        loginButton.setTitle("Login", for: .normal)
+        loginButton.backgroundColor = .orange
+        loginButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20.0)
         self.addSubview(loginButton)
         self.addSubview(userField)
         self.addSubview(passwordField)
         userLabel.text = "Username"
         userLabel.textAlignment = .left
         userLabel.textColor = .white
+        userLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
         self.addSubview(userLabel)
         passwordLabel.text = "Password"
         passwordLabel.textAlignment = .left
         passwordLabel.textColor = .white
+        passwordLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
         self.addSubview(passwordLabel)
         assignbackground()
     }

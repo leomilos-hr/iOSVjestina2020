@@ -9,7 +9,7 @@
 import Foundation
 import Alamofire
 
-class Service {
+class GetQuizService {
     fileprivate var baseUrl = ""
     typealias quizzesCallBack = (_ quizzes:Quizzes?, _ status: Bool, _ message:String) -> Void
     

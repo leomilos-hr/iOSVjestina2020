@@ -15,9 +15,8 @@ class MainQuizScreenView: UIView {
 
     var quizTitle : UILabel = UILabel()
     var imageQuiz : UIImageView = UIImageView()
-    var startQuizButton = makeButton(title: "Start Quiz", titleColor: .black, background: .green, borderColor: .black)
+    var startQuizButton = UIButton()
     var questionScrollView : UIScrollView = UIScrollView()
-    //var questionView: [QuestionView?] = []
 
     override init(frame: CGRect) {
        super.init(frame: frame)
@@ -30,32 +29,34 @@ class MainQuizScreenView: UIView {
     }
 
     func setup(){
-        backgroundColor = .white
+        backgroundColor = .darkGray
         quizTitle.numberOfLines = 0
         quizTitle.textAlignment = .center
+        quizTitle.font = UIFont.boldSystemFont(ofSize: 20.0)
+        quizTitle.textColor = .white
         self.addSubview(quizTitle)
         self.addSubview(imageQuiz)
+        startQuizButton.setTitle("Start Quiz", for: .normal)
+        startQuizButton.backgroundColor = .orange
+        startQuizButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20.0)
         self.addSubview(startQuizButton)
         self.addSubview(questionScrollView)
         questionScrollView.backgroundColor = .white
         questionScrollView.isHidden = true
-        //questionScrollView.isScrollEnabled = false
-        //questionView[0] = QuestionView(frame: self.frame)
-        //questionScrollView.addSubview(questionView[0]!)
     }
 
     override func updateConstraints() {
     if(!shouldSetupConstraints) {
        quizTitle.autoSetDimensions(to: CGSize(width:  self.frame.width / 2, height: self.frame.height / 15))
-       quizTitle.autoPinEdge(toSuperviewEdge: .top, withInset: self.frame.width / 2 - 100)
+       quizTitle.autoPinEdge(toSuperviewEdge: .top, withInset: self.frame.width / 3)
        quizTitle.autoAlignAxis(.vertical, toSameAxisOf: self)
        
-       imageQuiz.autoSetDimensions(to: CGSize(width: self.frame.width / 2, height: self.frame.size.height / 10))
-       imageQuiz.autoPinEdge(.top, to: .bottom, of: quizTitle, withOffset: 30)
+       imageQuiz.autoSetDimensions(to: CGSize(width: self.frame.width / 2, height: self.frame.size.height / 8))
+       imageQuiz.autoPinEdge(.top, to: .bottom, of: quizTitle, withOffset: self.frame.size.height / 30)
        imageQuiz.autoAlignAxis(.vertical, toSameAxisOf: self)
        
        startQuizButton.autoSetDimensions(to: CGSize(width: self.frame.width / 2, height: self.frame.size.height / 15))
-       startQuizButton.autoPinEdge(.top, to: .bottom, of: imageQuiz, withOffset: 30)
+       startQuizButton.autoPinEdge(.top, to: .bottom, of: imageQuiz, withOffset: self.frame.size.height / 30)
        startQuizButton.autoAlignAxis(.vertical, toSameAxisOf: self)
         
        questionScrollView.autoSetDimensions(to: CGSize(width:  self.frame.width, height: self.frame.height))

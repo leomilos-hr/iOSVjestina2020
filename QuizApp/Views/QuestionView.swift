@@ -31,9 +31,13 @@ class QuestionView: UIView {
     }
     
     func setup(){
-        qlabel.backgroundColor = UIColor.white
+        backgroundColor = .darkGray
+        qlabel.backgroundColor = .darkGray
         qlabel.numberOfLines = 0
         qlabel.textAlignment = .center
+        qlabel.textColor = .white
+        qlabel.font = UIFont.boldSystemFont(ofSize: 20.0)
+        qlabel.adjustsFontSizeToFitWidth = true
         self.addSubview(qlabel)
         self.addSubview(button_a)
         self.addSubview(button_b)
