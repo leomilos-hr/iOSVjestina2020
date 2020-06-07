@@ -83,6 +83,7 @@ class MainQuizScreenViewController: UIViewController {
    
     
     @objc func questionAction(_sender: CustomButton!){
+        mqs.questionScrollView.isUserInteractionEnabled = false
         for (index, answers) in _sender.question.answers.enumerated(){
              if (_sender.currentTitle == answers){
                 if (index == _sender.question.correct_answer ){
@@ -95,40 +96,50 @@ class MainQuizScreenViewController: UIViewController {
                 }
                 
                 nextScreen += view.frame.width
-                if _sender.currentQuestion < _sender.numberOfQuestions - 1 {
-                    mqs.questionScrollView.setContentOffset(CGPoint(x: nextScreen, y: 0), animated: true)
-                }
-                else{
-                    elapsedTime = start!.timeIntervalSinceNow * -1
-                    print("Elapsed time: \(start!.timeIntervalSinceNow * -1) seconds")
-                    print("Questions answered correctly: \(questionsAnsweredCorrectly)")
-                    let parameters: [String: Any] = [
-                        "quiz_id": chosenQuiz.id,
-                        "user_id": defaults.object(forKey: "user_id")!,
-                        "time": elapsedTime!,
-                        "no_of_correct": questionsAnsweredCorrectly
-                    ]
-                    let headers: HTTPHeaders = [
-                        .authorization(defaults.object(forKey: "token") as! String),
-                        .accept("application/json")
-                    ]
-                   
-                    AF.request("https://iosquiz.herokuapp.com/api/result", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate(statusCode: 200..<300)
-                        .responseJSON { response in
-                            //print(response)
-                            switch response.result {
-                                case .success:
-                                    print("Status code: \(response.response!.statusCode)")
-                                    //debugPrint(response)
-                                    self.navigationController?.popViewController(animated: true)
-                                case .failure:
-                                    print("Status code: \(response.response!.statusCode)")
-                                    //debugPrint(response)
+                delay(0.5){
+                    if _sender.currentQuestion < _sender.numberOfQuestions - 1 {
+                        self.mqs.questionScrollView.setContentOffset(CGPoint(x: self.nextScreen, y: 0), animated: false)
+                    }
+                    else{
+                        self.elapsedTime = self.start!.timeIntervalSinceNow * -1
+                        print("Elapsed time: \(self.start!.timeIntervalSinceNow * -1) seconds")
+                        print("Questions answered correctly: \(self.questionsAnsweredCorrectly)")
+                        let parameters: [String: Any] = [
+                            "quiz_id": self.chosenQuiz.id,
+                            "user_id": self.defaults.object(forKey: "user_id")!,
+                            "time": self.elapsedTime!,
+                            "no_of_correct": self.questionsAnsweredCorrectly
+                        ]
+                        let headers: HTTPHeaders = [
+                            .authorization(self.defaults.object(forKey: "token") as! String),
+                            .accept("application/json")
+                        ]
+                       
+                        AF.request("https://iosquiz.herokuapp.com/api/result", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate(statusCode: 200..<300)
+                            .responseJSON { response in
+                                //print(response)
+                                switch response.result {
+                                    case .success:
+                                        print("Status code: \(response.response!.statusCode)")
+                                        //debugPrint(response)
+                                        self.navigationController?.popViewController(animated: true)
+                                    case .failure:
+                                        print("Status code: \(response.response!.statusCode)")
+                                        //debugPrint(response)
+                                }
                             }
-                        }
-                }
-                
+                    }
+            }
+            break
             }
         }
+        delay(0.5){
+            self.mqs.questionScrollView.isUserInteractionEnabled = true
+        }
+    }
+ 
+    func delay(_ delay:Double, closure:@escaping ()->()) {
+        let when = DispatchTime.now() + delay
+        DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
     }
 }
