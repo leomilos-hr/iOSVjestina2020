@@ -62,7 +62,7 @@ class MainViewController: UIViewController {
                 guard let _quizzes = quizzes else {return}
                 self.list_of_quizzes = _quizzes
                 let sum_of_questions_containing_NBA: Int = self.list_of_quizzes.quizzes.map{$0.questions.filter{$0.question.contains("NBA")}}.count
-                self.mainView.fun_fact.text = "Ukupno pitanja koja u tekstu pitanja sadrže riječ “NBA”: \(sum_of_questions_containing_NBA)"
+                self.mainView.fun_fact.text = "Number of questions that contain word “NBA”: \(sum_of_questions_containing_NBA)"
 
                 self.mainView.tableView.reloadData()
                 NSLayoutConstraint.deactivate(self.mainView.constraintsWith)
