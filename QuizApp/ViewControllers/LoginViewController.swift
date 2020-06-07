@@ -16,14 +16,12 @@ class LoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .green
         setupView()
       
     }
     
     func setupView(){
-        let mainView = LoginView(frame: self.view.frame)
-        self.loginView = mainView
+        self.loginView = LoginView(frame: self.view.frame)
         self.view.addSubview(loginView)
         self.loginView.loginButton.addTarget(self, action: #selector(self.logInAction), for: .touchUpInside)
         
@@ -40,7 +38,7 @@ class LoginViewController: UIViewController {
                 print(response)
                 switch response.result {
                 case .success(let value):
-                    let viewController = ViewController()
+                    let viewController = MainViewController()
                     self.navigationController?.pushViewController(viewController, animated: true)
                     if let json = value as? [String: Any] {
                         self.defaults.set(json["user_id"] as! Int, forKey: "user_id")

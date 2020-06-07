@@ -11,18 +11,9 @@ import Alamofire
 import PureLayout
 
 
-class ViewController: UIViewController {
+class MainViewController: UIViewController {
 
-    var didSetupConstraints = false
-    var fun_fact = UILabel()
-    var button_get = UIButton()
-    var tableView = UITableView()
-    var mySubview: QuestionView!
-    var ima1 : NSMutableArray = []
-    var constraintsWith = [NSLayoutConstraint]()
-    var c1 : NSLayoutConstraint!
-    var c2 : NSLayoutConstraint!
-    var logoutButton : UIButton = UIButton()
+    var mainView: MainView!
     let defaults = UserDefaults.standard
     var titlesQuiz : [String] = []
     var list_of_quizzes = Quizzes(quizzes:[])
@@ -31,11 +22,20 @@ class ViewController: UIViewController {
     var randomQuestion: Question!
     
     override func viewDidLoad() {
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        button_get.addTarget(self, action: #selector(getQuizAction(_:)), for: .touchUpInside)
-        logoutButton.addTarget(self, action: #selector(logOutAction(_:)), for: .touchUpInside)
+        super.viewDidLoad()
+        setupView()
+       
+    
+    }
+    
+    func setupView(){
+        self.mainView = MainView(frame: self.view.frame)
+        self.view.addSubview(mainView)
+        mainView.tableView.dataSource = self
+        mainView.tableView.delegate = self
+        mainView.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        mainView.button_get.addTarget(self, action: #selector(getQuizAction(_:)), for: .touchUpInside)
+        mainView.logoutButton.addTarget(self, action: #selector(logOutAction(_:)), for: .touchUpInside)
     }
     
     @objc func logOutAction(_ sender: UIButton!){
@@ -55,7 +55,7 @@ class ViewController: UIViewController {
     @objc func getQuizAction(_ sender: UIButton!){
         //let loginViewController = LoginViewController()
         //navigationController?.pushViewController(loginViewController, animated: true)
-        self.button_get.isEnabled = false
+        mainView.button_get.isEnabled = false
         //initilazition of service
         let service = GetQuizService(baseUrl: "https://iosquiz.herokuapp.com/api/")
         service.getAllQuizzes(endPoint: "quizzes")
@@ -65,21 +65,21 @@ class ViewController: UIViewController {
                 guard let _quizzes = quizzes else {return}
                 self.list_of_quizzes = _quizzes
                 let sum_of_questions_containing_NBA: Int = self.list_of_quizzes.quizzes.map{$0.questions.filter{$0.question.contains("NBA")}}.count
-                self.fun_fact.text = "Ukupno pitanja koja u tekstu pitanja sadrže riječ “NBA”: \(sum_of_questions_containing_NBA)"
+                self.mainView.fun_fact.text = "Ukupno pitanja koja u tekstu pitanja sadrže riječ “NBA”: \(sum_of_questions_containing_NBA)"
 
-                self.tableView.reloadData()
-                NSLayoutConstraint.deactivate(self.constraintsWith)
-                self.constraintsWith = [NSLayoutConstraint]()
+                self.mainView.tableView.reloadData()
+                NSLayoutConstraint.deactivate(self.mainView.constraintsWith)
+                self.mainView.constraintsWith = [NSLayoutConstraint]()
                 let heightTableView1 = self.view.frame.height *  self.rowCounter / 8
                 let heightTableView2 = self.view.frame.height *  CGFloat(self.categoriesList.count) / 16
                 let heightTableView = heightTableView1 + heightTableView2
                 self.rowCounter = 0
-                self.tableView.autoSetDimensions(to: CGSize(width: self.view.frame.width, height: heightTableView))
-                self.c1 = self.tableView.heightAnchor.constraint(equalToConstant: heightTableView)
-                self.c2 = self.tableView.widthAnchor.constraint(equalToConstant: self.view.frame.width)
-                self.constraintsWith.append(self.c1)
-                self.constraintsWith.append(self.c2)
-                NSLayoutConstraint.activate(self.constraintsWith)
+                self.mainView.tableView.autoSetDimensions(to: CGSize(width: self.view.frame.width, height: heightTableView))
+                self.mainView.c1 = self.mainView.tableView.heightAnchor.constraint(equalToConstant: heightTableView)
+                self.mainView.c2 = self.mainView.tableView.widthAnchor.constraint(equalToConstant: self.view.frame.width)
+                self.mainView.constraintsWith.append(self.mainView.c1)
+                self.mainView.constraintsWith.append(self.mainView.c2)
+                NSLayoutConstraint.activate(self.mainView.constraintsWith)
                 //self.tableView.autoPinEdge(.bottom, to: .top, of: self.logoutButton, withOffset: self.view.frame.height / 50 * -1)
                 
                 self.titlesQuiz.removeAll()
@@ -89,62 +89,13 @@ class ViewController: UIViewController {
                 Alert.showBasic(title: "Greška", message: "Greška u dohvaćanju podataka", vc: self!)
             }
         }
-        self.button_get.isEnabled = true
+        self.mainView.button_get.isEnabled = true
     }
 }
 
-// MARK: PureLayout Implementation
-extension ViewController {
-    override func loadView() {
-        view = UIView()
-        view.backgroundColor = .white
-        button_get.backgroundColor = .orange
-        button_get.setTitle("List of Quizzes", for: .normal)
-        button_get.setTitleColor(.white, for: .normal)
-        button_get.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20.0)
-        view.addSubview(button_get)
-        fun_fact.text = "Fun Fact"
-        fun_fact.numberOfLines = 0
-        view.addSubview(fun_fact)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(tableView)
-        logoutButton.setTitle("Logout", for: .normal)
-        logoutButton.setTitleColor(.white, for: .normal)
-        logoutButton.backgroundColor = .orange
-        logoutButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20.0)
-        view.addSubview(logoutButton)
-        view.setNeedsUpdateConstraints()
-    }
-    
-    override func updateViewConstraints() {
-        if (!didSetupConstraints) {
-            button_get.autoSetDimensions(to: CGSize(width: self.view.frame.width / 2, height: self.view.frame.size.height / 10))
-            button_get.autoPinEdge(toSuperviewEdge: .top, withInset: self.view.frame.height / 20)
-            button_get.autoAlignAxis(.vertical, toSameAxisOf: self.view)
-            
-            fun_fact.autoPinEdge(.top, to: .bottom, of: button_get, withOffset: self.view.frame.height / 30)
-            fun_fact.autoPinEdge(toSuperviewEdge: .trailing, withInset: 15)
-            fun_fact.autoPinEdge(toSuperviewEdge: .leading, withInset: 15)
-            
-            tableView.autoPinEdge(.top, to: .bottom, of: fun_fact, withOffset: self.view.frame.height / 30)
-            c1 = tableView.heightAnchor.constraint(equalToConstant: 0)
-            c2 = tableView.widthAnchor.constraint(equalToConstant: view.frame.width)
-            constraintsWith.append(c1)
-            constraintsWith.append(c2)
-            NSLayoutConstraint.activate(constraintsWith)
-            
-            logoutButton.autoSetDimensions(to: CGSize(width: self.view.frame.width, height: self.view.frame.size.height / 10))
-            logoutButton.autoPinEdge(toSuperviewEdge: .bottom, withInset: 0)
 
-            
-            didSetupConstraints = true
-             
-        }
-        super.updateViewConstraints()
-    }
-}
 
-extension ViewController: UITableViewDataSource {
+extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
         label.text = categoriesList[section]
@@ -152,11 +103,11 @@ extension ViewController: UITableViewDataSource {
         label.font = UIFont.boldSystemFont(ofSize: 20.0)
         switch categoriesList[section]{
            case "SCIENCE":
-               label.backgroundColor = UIColor.green
+               label.backgroundColor = .magenta
            case "SPORTS":
-               label.backgroundColor = UIColor.blue
+               label.backgroundColor = .blue
            default:
-               label.backgroundColor = UIColor.red
+               label.backgroundColor = .red
         }
         label.textColor = UIColor.white
         label.layer.borderColor = UIColor.lightGray.cgColor
@@ -209,11 +160,15 @@ extension ViewController: UITableViewDataSource {
         cell.contentView.addSubview(cell.textLevel)
         cell.textLabel?.text = quizForCell.title
         cell.textLabel?.numberOfLines = 1
-        cell.textLabel?.sizeToFit()
+        cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 16.0)
+        //cell.textLabel?.sizeToFit()
+        cell.textLabel?.textColor = .white
         cell.textLabel?.adjustsFontSizeToFitWidth = true
         cell.detailTextLabel?.text = quizForCell.description
         cell.detailTextLabel?.numberOfLines = 0
         cell.detailTextLabel?.sizeToFit()
+        cell.detailTextLabel?.font = UIFont.boldSystemFont(ofSize: 16.0)
+        cell.detailTextLabel?.textColor = .white
         cell.detailTextLabel?.textAlignment = .left
         cell.layer.borderColor = UIColor.lightGray.cgColor
         cell.layer.borderWidth = 1.0
@@ -237,23 +192,23 @@ extension ViewController: UITableViewDataSource {
         //kategorija kviza
         switch quizForCell.category{
             case "SCIENCE":
-                cell.backgroundColor = UIColor.green
+                cell.backgroundColor = .magenta
             case "SPORTS":
-                cell.backgroundColor = UIColor.blue
+                cell.backgroundColor = .blue
             default:
-                cell.backgroundColor = UIColor.red
+                cell.backgroundColor = .red
         }
 
         return cell
     }
 }
 
-extension ViewController: UITableViewDelegate {
+extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.button_get.isEnabled = false
-        self.tableView.isUserInteractionEnabled = false
+        self.mainView.button_get.isEnabled = false
+        self.mainView.tableView.isUserInteractionEnabled = false
         
-        let cell = self.tableView.cellForRow(at: indexPath)
+        let cell = self.mainView.tableView.cellForRow(at: indexPath)
         
         var quizForCell : Quiz!
         for quiz in list_of_quizzes.quizzes{
@@ -266,8 +221,8 @@ extension ViewController: UITableViewDelegate {
         let mqsvc = MainQuizScreenViewController()
         mqsvc.chosenQuiz = quizForCell
         self.navigationController?.pushViewController(mqsvc, animated: true)
-        self.tableView.deselectRow(at: indexPath, animated: true)
-        self.tableView.isUserInteractionEnabled = true
-        self.button_get.isEnabled = true
+        self.mainView.tableView.deselectRow(at: indexPath, animated: true)
+        self.mainView.tableView.isUserInteractionEnabled = true
+        self.mainView.button_get.isEnabled = true
     }
 }

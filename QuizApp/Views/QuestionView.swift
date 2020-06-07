@@ -45,10 +45,10 @@ class QuestionView: UIView {
         self.addSubview(button_d)
         button_exit.backgroundColor = .orange
         self.addSubview(button_exit)
-        backgroundSetup()
+        assignbackground()
     }
     
-    func backgroundSetup(){
+    func assignbackground(){
         let background = UIImage(named: "background2.jpg")
         var imageView : UIImageView!
         imageView = UIImageView(frame: self.bounds)

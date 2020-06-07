@@ -22,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
         if (defaults.object(forKey: "token") != nil && defaults.object(forKey: "user_id") != nil){
             //print("bez login ekrana")
-            viewController = ViewController()
+            viewController = MainViewController()
             window?.rootViewController = viewController
             navigationController = UINavigationController(rootViewController: viewController)
             navigationController.navigationBar.isTranslucent = false
