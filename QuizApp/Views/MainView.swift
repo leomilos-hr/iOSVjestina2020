@@ -75,7 +75,7 @@ class MainView: UIView {
             fun_fact.autoPinEdge(toSuperviewEdge: .trailing, withInset: self.frame.width / 30)
             fun_fact.autoPinEdge(toSuperviewEdge: .leading, withInset: self.frame.width / 30)
             
-            logoutButton.autoSetDimensions(to: CGSize(width: self.frame.width, height: self.frame.height / 15))
+            logoutButton.autoSetDimensions(to: CGSize(width: self.frame.width, height: self.frame.height / 10))
             logoutButton.autoPinEdge(toSuperviewEdge: .bottom, withInset: self.frame.height / 10)
             
             tableView.autoPinEdge(.top, to: .bottom, of: fun_fact, withOffset: self.frame.height / 30)
@@ -84,8 +84,6 @@ class MainView: UIView {
             constraintsWith.append(c1)
             constraintsWith.append(c2)
             NSLayoutConstraint.activate(constraintsWith)
-            
-
             
             shouldSetupConstraints = true
         }

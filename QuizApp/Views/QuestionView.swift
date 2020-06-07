@@ -32,13 +32,28 @@ class QuestionView: UIView {
     
     func setup(){
         backgroundColor = .darkGray
-        qlabel.backgroundColor = .clear
+        qlabel.backgroundColor = .darkGray
         qlabel.numberOfLines = 0
         qlabel.textAlignment = .center
         qlabel.textColor = .white
         qlabel.font = UIFont.boldSystemFont(ofSize: 20.0)
         qlabel.adjustsFontSizeToFitWidth = true
+        qlabel.layer.cornerRadius = 20.0
+        qlabel.layer.masksToBounds = true
         self.addSubview(qlabel)
+        button_a.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20.0)
+        button_b.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20.0)
+        button_c.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20.0)
+        button_d.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20.0)
+        button_exit.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20.0)
+        button_a.layer.cornerRadius = 20.0
+        button_a.layer.masksToBounds = true
+        button_b.layer.cornerRadius = 20.0
+        button_b.layer.masksToBounds = true
+        button_c.layer.cornerRadius = 20.0
+        button_c.layer.masksToBounds = true
+        button_d.layer.cornerRadius = 20.0
+        button_d.layer.masksToBounds = true
         self.addSubview(button_a)
         self.addSubview(button_b)
         self.addSubview(button_c)
@@ -62,8 +77,9 @@ class QuestionView: UIView {
 
     override func updateConstraints() {
         if(shouldSetupConstraints) {
-            qlabel.autoSetDimensions(to: CGSize(width: self.frame.width, height: self.frame.height / 8))
+            qlabel.autoSetDimensions(to: CGSize(width: self.frame.width * 5/6, height: self.frame.height / 8))
             qlabel.autoPinEdge(toSuperviewEdge: .top, withInset: self.frame.height / 100)
+            qlabel.autoAlignAxis(.vertical, toSameAxisOf: self)
             
             button_a.autoSetDimensions(to: CGSize(width: self.frame.width * 4/5, height: self.frame.height / 8))
             button_a.autoPinEdge(.top, to: .bottom, of: qlabel, withOffset: self.frame.height / 100)
@@ -81,9 +97,9 @@ class QuestionView: UIView {
             button_d.autoPinEdge(.top, to: .bottom, of: button_c, withOffset: self.frame.height / 100)
             button_d.autoAlignAxis(.vertical, toSameAxisOf: self)
             
-            button_exit.autoSetDimensions(to: CGSize(width: self.frame.width * 4/5, height: self.frame.height / 8))
-            button_exit.autoPinEdge(.top, to: .bottom, of: button_d, withOffset: self.frame.height / 100)
-            button_exit.autoAlignAxis(.vertical, toSameAxisOf: self)
+            button_exit.autoSetDimensions(to: CGSize(width: self.frame.width, height: self.frame.height / 10))
+            button_exit.autoPinEdge(toSuperviewEdge: .bottom, withInset: self.frame.height / 10)
+            
 
             shouldSetupConstraints = false
         }

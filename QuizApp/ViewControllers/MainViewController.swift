@@ -10,7 +10,6 @@ import UIKit
 import Alamofire
 import PureLayout
 
-
 class MainViewController: UIViewController {
 
     var mainView: MainView!
@@ -24,12 +23,10 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-       
-    
     }
     
     func setupView(){
-        self.mainView = MainView(frame: self.view.frame)
+        self.mainView = MainView(frame: UIScreen.main.bounds)
         self.view.addSubview(mainView)
         mainView.tableView.dataSource = self
         mainView.tableView.delegate = self
@@ -102,12 +99,12 @@ extension MainViewController: UITableViewDataSource {
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 20.0)
         switch categoriesList[section]{
-           case "SCIENCE":
-               label.backgroundColor = .magenta
-           case "SPORTS":
-               label.backgroundColor = .blue
-           default:
-               label.backgroundColor = .red
+            case "SCIENCE":
+                label.backgroundColor = .magenta
+            case "SPORTS":
+                label.backgroundColor = .blue
+            default:
+                label.backgroundColor = .red
         }
         label.textColor = UIColor.white
         label.layer.borderColor = UIColor.lightGray.cgColor

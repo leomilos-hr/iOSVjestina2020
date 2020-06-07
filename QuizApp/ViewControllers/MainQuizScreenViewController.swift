@@ -115,14 +115,15 @@ class MainQuizScreenViewController: UIViewController {
                    
                     AF.request("https://iosquiz.herokuapp.com/api/result", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate(statusCode: 200..<300)
                         .responseJSON { response in
-                            print(response)
+                            //print(response)
                             switch response.result {
                                 case .success:
-                                    debugPrint(response)
+                                    print("Status code: \(response.response!.statusCode)")
+                                    //debugPrint(response)
                                     self.navigationController?.popViewController(animated: true)
-                                case .failure(let error):
-                                    print(error)
-                                    debugPrint(response)
+                                case .failure:
+                                    print("Status code: \(response.response!.statusCode)")
+                                    //debugPrint(response)
                             }
                         }
                 }
