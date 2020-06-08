@@ -47,7 +47,7 @@ class MainQuizScreenView: UIView {
     }
     
     func backgroundSetup(){
-        let background = UIImage(named: "background2.jpg")
+        let background = UIImage(named: "background.jpg")
         var imageView : UIImageView!
         imageView = UIImageView(frame: self.bounds)
         imageView.contentMode =  UIView.ContentMode.scaleAspectFill
