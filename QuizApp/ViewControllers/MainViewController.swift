@@ -20,6 +20,7 @@ class MainViewController: UIViewController {
     var rowCounter : CGFloat = 0
     var randomQuestion: Question!
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
